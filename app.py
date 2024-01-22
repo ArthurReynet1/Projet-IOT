@@ -15,14 +15,15 @@ def write():
     data=json.loads(read_file())
     connection = sqlite3.connect('DATABASE')
     cursor = connection.cursor()
-    id_sonde= data["id_sonde"]
-    date_sonde= data["date_sonde"]
-    temp_sonde= data["temp_sonde"]
-    humidite_sonde= data["humidite_sonde"]
-    pression_sonde= data["pression_sonde"]
-    cursor.execute("""insert into Sonde(id_sonde,date_sonde,temp_sonde,humidite_sonde,pression_sonde) values (?,?,?,?,?);""",(id_sonde,date_sonde,temp_sonde,humidite_sonde,pression_sonde))
-    connection.commit()
-    connection.close()
+    for i in range(len(data)):
+        id_sonde= data[i]["id_sonde"]
+        date_sonde= data[i]["date_sonde"]
+        temp_sonde= data[i]["temp_sonde"]
+        humidite_sonde= data[i]["humidite_sonde"]
+        pression_sonde= data[i]["pression_sonde"]
+        cursor.execute("""insert into Sonde(id_sonde,date_sonde,temp_sonde,humidite_sonde,pression_sonde) values (?,?,?,?,?);""",(id_sonde,date_sonde,temp_sonde,humidite_sonde,pression_sonde))
+        connection.commit()
+        connection.close()
 
 """
 Temporaire juste pour voir sans changer de fenetre
