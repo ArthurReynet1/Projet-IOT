@@ -21,6 +21,8 @@ def write():
     humidite_sonde= data["humidite_sonde"]
     pression_sonde= data["pression_sonde"]
     cursor.execute("""insert into Sonde(id_sonde,date_sonde,temp_sonde,humidite_sonde,pression_sonde) values (?,?,?,?,?);""",(id_sonde,date_sonde,temp_sonde,humidite_sonde,pression_sonde))
+    connection.commit()
+    connection.close()
 
 """
 Temporaire juste pour voir sans changer de fenetre
