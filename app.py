@@ -18,13 +18,12 @@ def write():
     data=read_file()
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
-    for i in range(len(data)):
-        date_releve=datetime.datetime.now()
-        moy_temp=data[i]["moy_temp"]
-        moy_humidite=data[i]["moy_humidite"]
-        moy_pression=data[i]["moy_pression"]
-        id_Sonde=data[i]["id_Sonde"]
-        cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
+    date_releve=datetime.datetime.now()
+    moy_temp=data[0]["moy_temp"]
+    moy_humidite=data[0]["moy_humidite"]
+    moy_pression=data[0]["moy_pression"]
+    id_Sonde=data[0]["id_Sonde"]
+    cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
     connection.commit()
     connection.close()
 
