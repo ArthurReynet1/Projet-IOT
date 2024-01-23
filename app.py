@@ -19,11 +19,12 @@ def write():
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
     date_releve=datetime.datetime.now()
-    moy_temp=data["data"][0]["temperature"]
-    moy_humidite=data["data"][0]["humidity"]
-    moy_pression=data["data"][0]["pressure"]
-    id_Sonde=data["data"][0]["sensor_id"]
-    cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
+    for i in range(len(data["data"])):
+        moy_temp=data["data"][i]["temperature"]
+        moy_humidite=data["data"][i]["humidity"]
+        moy_pression=data["data"][i]["pressure"]
+        id_Sonde=data["data"][i]["sensor_id"]
+        cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
     connection.commit()
     connection.close()
 
@@ -47,7 +48,7 @@ def home():
        "moy_pression":releve[2]})
    return flask.render_template('index.html',releve=table_releve)
 
-@app.route('/api/data', methods=['POST'])
+@app.route('/api/data', methods=['GET'])
 def get_data():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
