@@ -29,6 +29,8 @@ def write():
         connection.commit()
         connection.close()
 
+def pictogramme()
+
 
 @app.route('/', methods=['GET'])
 def home():
@@ -46,5 +48,11 @@ def home():
        "moy_humidite":releve[1],
        "moy_pression":releve[2]})
    return flask.render_template('index.html',releve=list_releve)
+
+@app.route('/api/data', methods=['GET'])
+def get_data():
+    data=read_file()
+    return flask.jsonify(data)
+
 
 #pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
