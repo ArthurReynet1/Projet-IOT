@@ -20,44 +20,14 @@ def write():
     connection = sqlite3.connect('DATABASE')
     cursor = connection.cursor()
     for i in range(len(data)):
-        date_sonde= data[i]["date_sonde"]
-        temp_sonde= data[i]["temp_sonde"]
-        humidite_sonde= data[i]["humidite_sonde"]
-        pression_sonde= data[i]["pression_sonde"]
-        cursor.execute("""insert into Sonde(date_sonde,temp_sonde,humidite_sonde,pression_sonde) values (?,?,?,?,?);""",(date_sonde,temp_sonde,humidite_sonde,pression_sonde))
+        date_releve=datetime.datetime.now()
+        moy_temp=data[i]["moy_temp"]
+        moy_humidite=data[i]["moy_humidite"]
+        moy_pression=data[i]["moy_pression"]
+        id_Sonde=data[i]["id_Sonde"]
+        cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
         connection.commit()
         connection.close()
-#fonction pour avoir la moyenne des données de la base de donnée et les mettre dans la table Releve
-def moyenne():
-    connection = sqlite3.connect('DATABASE')
-    cursor = connection.cursor()
-    moyenne_temp=cursor.execute("""select avg(temp_sonde) from Sonde;""")
-    moyenne_humidite=cursor.execute("""select avg(humidite_sonde) from Sonde;""")
-    moyenne_pression=cursor.execute("""select avg(pression_sonde) from Sonde;""")
-    cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression) values (?,?,?,?);""",(datetime.datetime.now(),moyenne_temp,moyenne_humidite,moyenne_pression)) #datetime.datetime.now() sert a avoir la date et l'heure actuelle et donc la date du relevé
-    connection.commit()
-    connection.close()
-
-#fonction qui génére un graphique avec les données de la base de donnée
-def graphique():
-    connection = sqlite3.connect('DATABASE')
-    cursor = connection.cursor()
-    cursor.execute("""select moy_humidite from Releve order by desc limit 5;""")
-    abscisse = cursor.fetchall()
-    cursor.execute("""select moy_temp from Releve order by desc limit 5;""")
-    ordonnee= cursor.fetchall()
-    plt.plot(abscisse,ordonnee, color='b', marker='+')
-    plt.title("Evolution de la température en fonction de l'humidité")
-    plt.show()
-    connection.commit()
-    connection.close()
-def pictogramme():
-
-
-
-
-    
-
 
 
 """
@@ -79,8 +49,20 @@ mail_log TEXT NOT NULL, mdp_log TEXT NOT NULL);
 @app.route('/', methods=['GET'])
 def home():
    write()
-   moyenne()
-   graphique = graphique()
-   return flask.render_template('index.html', graphique=graphique)
+   connection=sqlite3.connect('DATABASE')
+   cursor=connection.cursor()
+   cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by desc limit 1;""")
+   data=cursor.fetchall()
+   connection.commit()
+   connection.close()
+   list_releve=[]
+   for releve in data:
+       list_releve.append({
+       "moy_temp":releve[0],
+       "moy_humidite":releve[1],
+       "moy_pression":releve[2]
+
+      })
+   return flask.render_template('index.html',data)
 
 #pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
