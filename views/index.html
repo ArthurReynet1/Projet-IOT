@@ -4,10 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Station</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Station</h1>
+<body class="bg-slate-200">
+    <h1 class="flex justify-center text-2xl font-medium text-cyan-400">Station &nbsp;<span class="text-yellow-400">Météo</span></h1>
 
+    <div class="container mx-auto my-8">
+        <table class="min-w-full bg-white border border-teal-500">
+            <thead>
+                <tr class="bg-cyan-500 text-white">
+                    <th>Température (en °C)</th>
+                    <th>Taux d'humidité (en %)</th>
+                    <th>Pression (en pa)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for releve in table_releve %}
+                    <tr>
+                        <td class="text-center">{{ releve[0] }}</td>
+                        <td class="text-center">{{ releve[1] }}</td>
+                        <td class="text-center">{{ releve[2] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
     
 </html>
