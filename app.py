@@ -17,7 +17,7 @@ def read_file():
 #fonction pour ecrire dans la base de donnée les données du fichier json
 def write():
     data=json.loads(read_file())
-    connection = sqlite3.connect('DATABASE')
+    connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
     for i in range(len(data)):
         date_releve=datetime.datetime.now()
@@ -29,30 +29,34 @@ def write():
         connection.commit()
         connection.close()
 
-def pictogramme()
 
 
 @app.route('/', methods=['GET'])
 def home():
    write()
-   connection=sqlite3.connect('DATABASE')
+   connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
    cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by desc limit 1;""")
    data=cursor.fetchall()
    connection.commit()
    connection.close()
    list_releve=[]
-   for releve in data:
-       list_releve.append({
-       "moy_temp":releve[0],
-       "moy_humidite":releve[1],
-       "moy_pression":releve[2]})
+   list_releve.append({
+   "moy_temp":releve[0],
+   "moy_humidite":releve[1],
+   "moy_pression":releve[2]})
    return flask.render_template('index.html',releve=list_releve)
 
-@app.route('/api/data', methods=['GET'])
+@app.route('/api/data', methods=['POST'])
 def get_data():
-    data=read_file()
+    connection=sqlite3.connect('Station_meteo.db')
+    cursor=connection.cursor()
+    cursor.execute("""select * from releve;""")
+    data=cursor.fetchall()
+    connection.commit()
+    connection.close()
     return flask.jsonify(data)
+
 
 
 #pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
