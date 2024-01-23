@@ -1,0 +1,6 @@
+{
+    "data": [
+    {"id": 1, "temperature": 25, "humidity": 50, "pressure": 1010, "sensor_id": 123}
+    ]
+  }
+  
