@@ -42,6 +42,15 @@ def moyenne():
 def graphique():
     connection = sqlite3.connect('DATABASE')
     cursor = connection.cursor()
+    cursor.execute("""select moy_humidite from Releve order by desc limit 5;""")
+    abscisse = cursor.fetchall()
+    cursor.execute("""select moy_temp from Releve order by desc limit 5;""")
+    ordonnee= cursor.fetchall()
+    plt.plot(abscisse,ordonnee, color='b', marker='+')
+    plt.title("Evolution de la température en fonction de l'humidité")
+    plt.show()
+
+
     
 
 
