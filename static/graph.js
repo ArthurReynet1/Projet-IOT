@@ -1,14 +1,18 @@
 fetch('/api/data')
     .then(response => response.json())
     .then(data => {
-        const lastSixLabels = data.labels.slice(-6);
-        const lastSixTemperature = data.temperature.slice(-6);
-        const lastSixHumidity = data.humidity.slice(-6);
-        createChart(lastSixLabels, lastSixTemperature, lastSixHumidity);
+        const selectedData = data.data.slice(-6);
+
+        createChart(selectedData);
     })
     .catch(error => console.error('Erreur lors de la récupération des données:', error));
 
-function createChart(labels, temperature, humidity) {
+function createChart(data) {
+
+    var labels = data.map(entry => entry.id);
+    var temperature = data.map(entry => entry.temperature);
+    var humidity = data.map(entry => entry.humidity);
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
