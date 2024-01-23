@@ -49,6 +49,8 @@ def graphique():
     plt.plot(abscisse,ordonnee, color='b', marker='+')
     plt.title("Evolution de la température en fonction de l'humidité")
     plt.show()
+    connection.commit()
+    connection.close()
 
 
     
