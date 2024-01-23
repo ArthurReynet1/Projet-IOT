@@ -1,0 +1,11 @@
+
+{
+  "data": [
+    {"id": 1, "temperature": 25, "humidity": 50, "pressure": 1010, "sensor_id": 123},
+    {"id": 2, "temperature": 26, "humidity": 48, "pressure": 1012, "sensor_id": 123},
+    {"id": 3, "temperature": 26, "humidity": 48, "pressure": 1012, "sensor_id": 123},
+    {"id": 4, "temperature": 26, "humidity": 48, "pressure": 1012, "sensor_id": 123},
+    {"id": 5, "temperature": 26, "humidity": 48, "pressure": 1012, "sensor_id": 123},
+    {"id": 6, "temperature": 26, "humidity": 48, "pressure": 1012, "sensor_id": 123}
+  ]
+}

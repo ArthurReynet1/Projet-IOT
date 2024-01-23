@@ -15,7 +15,7 @@ def read_file():
     return data
 #fonction pour ecrire dans la base de donnée les données du fichier json
 def write():
-    data=json.loads(read_file())
+    data=read_file()
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
     for i in range(len(data)):
@@ -31,6 +31,7 @@ def write():
 
 
 @app.route('/', methods=['GET'])
+
 def home():
    write()
    connection=sqlite3.connect('Station_meteo.db')
@@ -39,13 +40,13 @@ def home():
    data=cursor.fetchall()
    connection.commit()
    connection.close()
-   list_releve=[]
+   table_releve=[]
    for releve in data:
-       list_releve.append({
+       table_releve.append({
        "moy_temp":releve[0],
        "moy_humidite":releve[1],
        "moy_pression":releve[2]})
-   return flask.render_template('index.html',releve=list_releve)
+   return flask.render_template('index.html',releve=table_releve)
 
 @app.route('/api/data', methods=['POST'])
 def get_data():
