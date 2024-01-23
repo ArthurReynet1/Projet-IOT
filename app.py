@@ -82,3 +82,5 @@ def home():
    moyenne()
    graphique = graphique()
    return flask.render_template('index.html', graphique=graphique)
+
+#pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
