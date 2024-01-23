@@ -25,8 +25,8 @@ def write():
         moy_pression=data[i]["moy_pression"]
         id_Sonde=data[i]["id_Sonde"]
         cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
-        connection.commit()
-        connection.close()
+    connection.commit()
+    connection.close()
 
 
 
