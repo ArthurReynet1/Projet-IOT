@@ -41,10 +41,11 @@ def home():
    connection.commit()
    connection.close()
    list_releve=[]
-   list_releve.append({
-   "moy_temp":releve[0],
-   "moy_humidite":releve[1],
-   "moy_pression":releve[2]})
+   for releve in data:
+       list_releve.append({
+       "moy_temp":releve[0],
+       "moy_humidite":releve[1],
+       "moy_pression":releve[2]})
    return flask.render_template('index.html',releve=list_releve)
 
 @app.route('/api/data', methods=['POST'])
