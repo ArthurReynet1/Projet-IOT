@@ -56,18 +56,7 @@ def get_data():
     data=cursor.fetchall()
     connection.commit()
     connection.close()
-    return flask.jsonify(data)
-
-@app.route('/api/modifications', methods=['POST'])
-def get_modifications():
-    connection=sqlite3.connect('Station_meteo.db')
-    cursor=connection.cursor()
-    cursor.execute("""select id_Releve, moy_temp, moy_humidite, moy_pression,id_sonde from modifications;""")
-    data=cursor.fetchall()
-    connection.commit()
-    connection.close()
-    return flask.jsonify(data)
-
+    return flask.jsonify({"data": data})
 
 
 #pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
