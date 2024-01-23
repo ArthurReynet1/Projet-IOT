@@ -51,6 +51,9 @@ def graphique():
     plt.show()
     connection.commit()
     connection.close()
+def pictogramme():
+
+
 
 
     
