@@ -26,7 +26,7 @@ def write():
         id_Sonde=data[i]["id_Sonde"]
         cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
         connection.commit()
-        connection.close()
+    connection.close()
 
 
 
@@ -56,7 +56,7 @@ def get_data():
     data=cursor.fetchall()
     connection.commit()
     connection.close()
-    return flask.jsonify(data)
+    return flask.jsonify({"data": data})
 
 @app.route('/api/modifications', methods=['POST'])
 def get_modifications():
@@ -66,7 +66,7 @@ def get_modifications():
     data=cursor.fetchall()
     connection.commit()
     connection.close()
-    return flask.jsonify(data)
+    return flask.jsonify({"data": data})
 
 
 
