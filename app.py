@@ -11,11 +11,11 @@ if __name__ == "__main__":
 #fonction pour lire le fichier json et le mettre dans une liste
 def read_file():
     with open('JSON/data.json', 'r') as fichier:
-        data = json.load(fichier)
+        data = json.loads(fichier)
     return data
 #fonction pour ecrire dans la base de donnée les données du fichier json
 def write():
-    data=json.loads(read_file())
+    data=read_file()
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
     for i in range(len(data)):
@@ -61,7 +61,7 @@ def get_data():
 def get_modifications():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
-    cursor.execute("""select * from modifications;""")
+    cursor.execute("""select id_Releve, moy_temp, moy_humidite, moy_pression,id_sonde from modifications;""")
     data=cursor.fetchall()
     connection.commit()
     connection.close()
