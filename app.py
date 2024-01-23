@@ -60,9 +60,7 @@ def home():
        list_releve.append({
        "moy_temp":releve[0],
        "moy_humidite":releve[1],
-       "moy_pression":releve[2]
-
-      })
-   return flask.render_template('index.html',data)
+       "moy_pression":releve[2]})
+   return flask.render_template('index.html',releve=list_releve)
 
 #pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
