@@ -30,22 +30,6 @@ def write():
         connection.close()
 
 
-"""
-Temporaire juste pour voir sans changer de fenetre
-CREATION DE LA TABLE "Sonde"
-sqlite> CREATE TABLE IF NOT EXISTS Sonde(id_Sonde INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, date_sonde DATETIME NOT NULL,
- temp_sonde FLOAT NOT NULL, humidite_sonde INTEGRER NOT NULL, pression_sonde INTEGER NOT NULL );
-
-
-sqlite> CREATE TABLE IF NOT EXISTS Releve(id_Releve INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, date_releve DATETIME NOT NULL,
-moy_temp FLOAT NOT NULL, moy_humidite FLOAT NOT NULL, moy_pression FLOAT NOT NULL );
-
-##(BONUS)CREATION DE LA TABLE "Login"*
-sqlite> CREATE TABLE IF NOT EXISTS Login(id_Login INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, date_log DATETIME NOT NULL, 
-mail_log TEXT NOT NULL, mdp_log TEXT NOT NULL);
-"""
-
-
 @app.route('/', methods=['GET'])
 def home():
    write()
