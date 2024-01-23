@@ -2,7 +2,6 @@ import flask
 import sqlite3
 import json
 import datetime
-import matplotlib.pyplot as plt
 
 app = flask.Flask(__name__, template_folder='views')
 if __name__ == "__main__":
