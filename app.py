@@ -2,7 +2,7 @@ import flask
 import sqlite3
 import json
 import datetime
-
+import matplotlib.pyplot as plt
 
 app = flask.Flask(__name__, template_folder='views')
 if __name__ == "__main__":
@@ -37,6 +37,14 @@ def moyenne():
     cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression) values (?,?,?,?);""",(datetime.datetime.now(),moyenne_temp,moyenne_humidite,moyenne_pression)) #datetime.datetime.now() sert a avoir la date et l'heure actuelle et donc la date du relevé
     connection.commit()
     connection.close()
+
+#fonction qui génére un graphique avec les données de la base de donnée
+def graphique():
+    connection = sqlite3.connect('DATABASE')
+    cursor = connection.cursor()
+    
+
+
 
 """
 Temporaire juste pour voir sans changer de fenetre
