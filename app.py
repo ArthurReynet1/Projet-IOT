@@ -75,6 +75,7 @@ mail_log TEXT NOT NULL, mdp_log TEXT NOT NULL);
 
 @app.route('/', methods=['GET'])
 def home():
-   connection = sqlite3.connect('DATABASE')
-   cursor = connection.cursor()
-   return flask.render_template('index.html')
+   write()
+   moyenne()
+   graphique = graphique()
+   return flask.render_template('index.html', graphique=graphique)
