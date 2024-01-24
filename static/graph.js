@@ -15,7 +15,7 @@ function createChart(data) {
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'scatter', // Utilisez un diagramme de dispersion pour afficher la relation entre la température et l'humidité
+        type: 'line', // Utilisez un diagramme de dispersion pour afficher la relation entre la température et l'humidité
         data: {
             labels: labels,
             datasets: [
