@@ -20,10 +20,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for sonde in table_sonde %}
+                        {% for sonde in sonde %}
                             <tr>
-                                <td class="text-center">{{ sonde_id }}</td>
-                                <td class="text-center">{{ sonde_name }}</td>
+                                <td class="text-center">{{ sonde.sonde_id }}</td>
+                                <td class="text-center">{{ sonde.sonde_name }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
