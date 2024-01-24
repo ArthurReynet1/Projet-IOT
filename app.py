@@ -114,7 +114,7 @@ def delete_sonde(id_Sonde):
 def add_sonde(id_Sonde):
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute('INSERT INTO Sonde WHERE id_Sonde = ?', (id_Sonde,))
+   cursor.execute('INSERT INTO Sonde(name_sonde, actif_sonde) VALUES (?, ?)', (id_Sonde,))
    connection.commit()
    connection.close()
 
