@@ -47,20 +47,6 @@ def pictogramme():
     else:
         pictogramme = "☁️"
     return pictogramme
-    """si temperature >= 25 et pression <= 101325 et humidite <= 50:
-    pictogramme = "☀️"  # Soleil pour une température élevée, une pression normale et une humidité basse
-elif temperature < 10 et pression <= 101325 et humidite <= 70:
-    pictogramme = "❄️"  # Flocons de neige pour une température basse, une pression normale et une humidité modérée
-elif pression > 101325:
-    pictogramme = "☁️"  # Nuages pour une pression élevée
-elif humidite > 80:
-    pictogramme = "🌧️"  # Pluie pour une humidité élevée
-autrement:
-    pictogramme = "☁️"  # Pictogramme par défaut pour les autres conditions
-"""
-
-
-
 
 
 
@@ -105,12 +91,16 @@ def modification():
             cursor.execute("""delete from Sonde where id_Sonde=?;""",(id_Sonde,))
       elif choix == "3":
             cursor.execute("""insert into Sonde(name_sonde) values (?);""",(name_sonde,))
+      cursor.execute("""select * from Sonde;""")
+      data=cursor.fetchall()
       connection.commit()
       connection.close()
-
-      return flask.redirect('/')
-   else:
-      return flask.render_template('modification.html')
+      table_sonde=[]
+      for sonde in data:
+        table_sonde.append({
+        "id_Sonde":sonde[0],
+        "Name_sonde":sonde[1]})
+      return flask.render_template('modification.html',sonde=table_sonde)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
