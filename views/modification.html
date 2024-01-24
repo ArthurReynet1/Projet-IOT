@@ -18,7 +18,6 @@
                         <th>Nom</th>
                         <th>État</th>
                         <th>Supprimer</th>
-                        <th>Modifier</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,26 +25,17 @@
                         <tr>
                             <td class="text-center">{{ sonde.id_Sonde }}</td>
                             <td class="text-center">{{ sonde.name_sonde }}</td>
-                            <td class="text-center"><input type="checkbox" name="etat_{{ sonde.id_Sonde }}" value="1" {% if sonde.actif_sonde == "1" %} checked {% endif %}></td>
+                            <td class="text-center"><a href="/edit_{{sonde.id_Sonde}}"> <input type="checkbox" name="etat_{{ sonde.id_Sonde }}" value="1" {% if sonde.actif_sonde == 1 %} checked {% endif %}></a></td>
                             <td class="text-center">
                                 <a href="/delete/{{sonde.id_Sonde}}" class="flex justify-center">
                                     <button class="bg-red-500 text-white py-1 px-2 rounded w-full">Delete</button>
                                 </a>
                             </td>
-                            <td class="text-center">
-                                <a href="/edit/{{sonde.id_Sonde}}" class="flex justify-center">
-                                    <button class="bg-green-500 text-white py-1 px-2 rounded w-full">Update</button>
-                                </a>
-                            </td>
                         </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-        {% endfor %}
-        <a href="/edit" class="flex justify-center">
-            <button type="submit" value="1" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
-                Mettre à jour l'État
-            </button> 
         </a>
     <a href="/add" class="flex justify-center mt-8">
         <button type="submit" value="2" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
