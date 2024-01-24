@@ -44,11 +44,11 @@ cursor.execute ("""CREATE TABLE IF NOT EXISTS User(
 
 connection.commit()
 
-"""cursor.execute ( TABLE Sonde ADD COLUMN actif INTEGER DEFAULT 1)
+cursor.execute ("""ALTER TABLE Sonde DROP COLUMN actif""")
 
-connection.commit()"""
+connection.commit()
 
-cursor.execute ("""DELETE FROM Sonde WHERE id_Sonde = 2""")
+"""cursor.execute (""""""DELETE FROM Sonde WHERE id_Sonde = 2"""""")"""
 
 connection.commit()
 
