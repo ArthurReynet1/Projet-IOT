@@ -65,8 +65,25 @@ def home():
        "moy_temp":releve[0],
        "moy_humidite":releve[1],
        "moy_pression":releve[2]})
-   print(table_releve)
+   #print(table_releve)
    return flask.render_template('index.html',releve=table_releve,emoji=pictogramme())
+
+@app.route('/list', methods=['GET'])
+def list_sonde():
+   connection=sqlite3.connect('Station_meteo.db')
+   cursor=connection.cursor()
+   cursor.execute("""select * from Sonde;""")
+   data=cursor.fetchall()
+   connection.commit()
+   connection.close()
+   table_sonde=[]
+   for sonde in data:
+       table_sonde.append({
+       "sonde_id":sonde[0],
+       "sonde_name":sonde[1]})
+   return flask.render_template('modification.html',table_sonde=table_sonde)
+
+
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
@@ -77,31 +94,6 @@ def get_data():
     connection.commit()
     connection.close()
     return flask.jsonify({"data": data})
-
-@app.route('/modification', methods=['GET', 'POST'])
-def modification():
-   if flask.request.method == 'POST':
-      id_Sonde = flask.request.values.get('id')
-      name_sonde = flask.request.values.get('Nom')
-      choix = flask.request.values.get('choix')
-      connection = sqlite3.connect('Station_meteo.db')
-      cursor = connection.cursor()
-      if choix == "1":
-            cursor.execute("""update Sonde set name_sonde=? where id_Sonde=?;""",(name_sonde,id_Sonde))
-      elif choix == "2":
-            cursor.execute("""delete from Sonde where id_Sonde=?;""",(id_Sonde,))
-      elif choix == "3":
-            cursor.execute("""insert into Sonde(name_sonde) values (?);""",(name_sonde,))
-      cursor.execute("""select * from Sonde;""")
-      data=cursor.fetchall()
-      connection.commit()
-      connection.close()
-      table_sonde=[]
-      for sonde in data:
-        table_sonde.append({
-        "id_Sonde":sonde[0],
-        "Name_sonde":sonde[1]})
-      return flask.render_template('modification.html',sonde=table_sonde)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
