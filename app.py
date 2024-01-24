@@ -113,13 +113,17 @@ def delete_sonde(id_Sonde):
 
 @app.route('/add', methods=['GET','POST'])
 def add_sonde():
-   connection=sqlite3.connect('Station_meteo.db')
-   cursor=connection.cursor()
-   cursor.execute('INSERT INTO Sonde(name_sonde, actif_sonde) VALUES (?, ?)', (name_sonde, actif_sonde))
-   connection.commit()
-   connection.close()
+    if flask.request.method == 'POST':
+    =flask.request.values.get(name_sonde)
+    =flask.request.values.get(actif_sonde)
 
-   return flask.redirect('/list')
+    connection=sqlite3.connect('Station_meteo.db')
+    cursor=connection.cursor()
+    cursor.execute('INSERT INTO Sonde(name_sonde, actif_sonde) VALUES (?, ?)', (name_sonde, actif_sonde))
+    connection.commit()
+    connection.close()
+
+    return flask.redirect('/list')
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
