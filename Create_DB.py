@@ -43,8 +43,9 @@ cursor.execute ("""CREATE TABLE IF NOT EXISTS User(
 """)
 
 connection.commit()
-
-cursor.execute ("""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL""")
+"""
+cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL"""""")
+"""
 
 connection.commit()
 
@@ -54,3 +55,9 @@ connection.commit()"""
 
 connection.close()
 
+#insert a row in the table "Sonde"
+connection = sqlite3.connect('Station_meteo.db')
+cursor = connection.cursor()
+cursor.execute("""INSERT INTO Sonde(name_sonde,actif_sonde) VALUES('Sonde test',1)""")
+connection.commit()
+connection.close()

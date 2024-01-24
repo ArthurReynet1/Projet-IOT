@@ -79,8 +79,9 @@ def list_sonde():
    table_sonde=[]
    for sonde in data:
        table_sonde.append({
-       "sonde_id":sonde[0],
-       "sonde_name":sonde[1]})
+       "id_Sonde":sonde[0],
+       "name_sonde":sonde[1],
+       "actif_sonde":sonde[2]})
    print(table_sonde) 
    return flask.render_template('modification.html',table_sonde=table_sonde)
 
