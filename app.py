@@ -85,6 +85,22 @@ def list_sonde():
    return flask.render_template('modification.html',table_sondesonde=table_sonde)
 
 
+@app.route('/edit', methods=['POST'])
+def list_sonde():
+   connection=sqlite3.connect('Station_meteo.db')
+   cursor=connection.cursor()
+   cursor.execute("""select * from Sonde;""")
+   data=cursor.fetchall()
+   connection.commit()
+   connection.close()
+   table_sonde=[]
+   for sonde in data:
+       table_sonde.append({
+       "sonde_id":sonde[0],
+       "sonde_name":sonde[1]})
+   print(table_sonde) 
+   return flask.render_template('modification.html',sonde=table_sonde)
+
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
