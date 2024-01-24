@@ -7,52 +7,51 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-200">
-    <h1 class="flex justify-center text-2xl font-medium text-cyan-400 mt-4">Modifier les sondes&nbsp;</h1>
+    <h1 class="flex justify-center text-2xl font-medium text-cyan-400 mt-4">Modifier les sondes</h1>
     <a class="underline opacity-20" href="/">Retour</a>
     <form method="POST" action="/modification" class="flex flex-col gap-4 mt-4 w-full md:w-1/2 mx-auto">
             
-            <div class="container mx-auto my-8">
-                <table class="min-w-full bg-white border border-teal-500">
-                    <thead>
-                        <tr class="bg-cyan-500 text-white">
-                            <th>Numéro</th>
-                            <th>Nom</th>
+        <div class="container mx-auto my-8">
+            <table class="min-w-full bg-white border border-teal-500">
+                <thead>
+                    <tr class="bg-cyan-500 text-white">
+                        <th>Numéro</th>
+                        <th>Nom</th>
+                        <th>État</th>
+                        <th>Supprimer</th>
+                        <th>Modifier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sonde in table_sonde %}
+                        <tr>
+                            <td class="text-center">{{ sonde.id_Sonde }}</td>
+                            <td class="text-center">{{ sonde.name_sonde }}</td>
+                            <td class="text-center"><input type="checkbox" name="etat_{{ sonde.id }}" value="1" {% if sonde.actif="1" %} checked {% endif %}></td>
+                            <td class="text-center">
+                                <a href="/delete/{{sonde.id}}">
+                                    <button class="bg-red-500 text-white py-1 px-2 rounded w-full">Delete</button>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="/modif/{{sonde.id}}">
+                                    <button class="bg-green-500 text-white py-1 px-2 rounded w-full">Update</button>
+                                </a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for sonde in table_sonde %}
-                            <tr>
-                                <td class="text-center">{{ sonde[0] }}</td>
-                                <td class="text-center">{{ sonde[1] }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-
-
-            <div class="flex flex-col gap-1">
-                <label for="id" class="text-xl text-teal-900 font-bold">ID</label>
-                <input type="text" name="id" id="id" class="bg-white border border-teal-200 focus:border-teal-500 focus:outline-none px-2 py-1 rounded-lg">
-            </div>
-            <div class="flex flex-col gap-1">
-                <label for="Nom" class="text-xl text-teal-900 font-bold">Nom</label>
-                <input type="Nom" name="Nom" id="Nom" class="bg-white border border-teal-200 focus:border-teal-500 focus:outline-none px-2 py-1 rounded-lg">
-            </div>
-            
-            <button type="submit" value="1" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
-                Mettre à jour le nom
-            </button>
-            
-            <button type="submit" value="2" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
-                Supprimer la sonde
-            </button>
-            
-            <button type="submit" value="3" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
-                Ajouter la sonde
-            </button>
-        </form>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <button type="submit" value="1" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
+            Mettre à jour l'État
+        </button>
+        <button type="submit" value="1" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
+            Ajouter une sonde
+        </button>
+        
+    </form>
 </body>
     
 </html>
