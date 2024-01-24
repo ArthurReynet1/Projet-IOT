@@ -43,7 +43,10 @@ function createChart(data) {
                 y: {
                     beginAtZero: true
                 }
-            }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
         }
+
     });
 }
