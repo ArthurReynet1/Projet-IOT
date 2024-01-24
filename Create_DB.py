@@ -44,7 +44,7 @@ cursor.execute ("""CREATE TABLE IF NOT EXISTS User(
 
 connection.commit()
 
-cursor.execute ("""ALTER TABLE Sonde ADD COLUMN actif BOOLEEN""")
+cursor.execute ("""ALTER TABLE Sonde DROP COLUMN actif """)
 
 connection.commit()
 
