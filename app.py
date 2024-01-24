@@ -90,15 +90,16 @@ def list_sonde():
 def edit_sonde():
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute("""select * from Sonde;""")
+   cursor.execute("""SELECT actif_sonde WHERE id_Sonde = """)
    data=cursor.fetchall()
    connection.commit()
    connection.close()
    table_sonde=[]
    for sonde in data:
        table_sonde.append({
-       "sonde_id":sonde[0],
-       "sonde_name":sonde[1]})
+       "id_sonde":sonde[0],
+       "name_sonde":sonde[1],
+       "actif_sonde":sonde[2]})
    print(table_sonde) 
    return flask.render_template('modification.html',sonde=table_sonde)
 
