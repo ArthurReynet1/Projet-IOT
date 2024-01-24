@@ -47,6 +47,21 @@ def pictogramme():
     else:
         pictogramme = "☁️"
     return pictogramme
+    """si temperature >= 25 et pression <= 101325 et humidite <= 50:
+    pictogramme = "☀️"  # Soleil pour une température élevée, une pression normale et une humidité basse
+elif temperature < 10 et pression <= 101325 et humidite <= 70:
+    pictogramme = "❄️"  # Flocons de neige pour une température basse, une pression normale et une humidité modérée
+elif pression > 101325:
+    pictogramme = "☁️"  # Nuages pour une pression élevée
+elif humidite > 80:
+    pictogramme = "🌧️"  # Pluie pour une humidité élevée
+autrement:
+    pictogramme = "☁️"  # Pictogramme par défaut pour les autres conditions
+"""
+
+
+
+
 
 
 @app.route('/', methods=['GET'])
@@ -76,6 +91,26 @@ def get_data():
     connection.close()
     return flask.jsonify({"data": data})
 
+@app.route('/modification', methods=['GET', 'POST'])
+def modification():
+   if flask.request.method == 'POST':
+      id_Sonde = flask.request.values.get('id')
+      name_sonde = flask.request.values.get('Nom')
+      choix = flask.request.values.get('choix')
+      connection = sqlite3.connect('Station_meteo.db')
+      cursor = connection.cursor()
+      if choix == "1":
+            cursor.execute("""update Sonde set name_sonde=? where id_Sonde=?;""",(name_sonde,id_Sonde))
+      elif choix == "2":
+            cursor.execute("""delete from Sonde where id_Sonde=?;""",(id_Sonde,))
+      elif choix == "3":
+            cursor.execute("""insert into Sonde(name_sonde) values (?);""",(name_sonde,))
+      connection.commit()
+      connection.close()
+
+      return flask.redirect('/')
+   else:
+      return flask.render_template('modification.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
