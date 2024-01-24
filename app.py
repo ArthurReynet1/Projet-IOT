@@ -2,7 +2,7 @@ import flask
 import sqlite3
 import json
 import datetime
-
+from flask import request
 app = flask.Flask(__name__, template_folder='views', static_url_path='', static_folder='static')
 
 #fonction pour lire le fichier json et le mettre dans une liste
@@ -134,6 +134,17 @@ def get_data():
     connection.commit()
     connection.close()
     return flask.jsonify({"data": data})
+
+
+@app.route('/writejson', methods=['POST'])
+def write_json():
+    data = request.get_json()
+    print("Received JSON data:", data)
+
+    with open('data.json', 'w') as json_file:
+        json_file.write(str(data))
+
+    return "JSON data received successfully"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
