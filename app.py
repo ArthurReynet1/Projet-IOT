@@ -86,7 +86,7 @@ def list_sonde():
 
 
 @app.route('/edit', methods=['POST'])
-def edit_sonde(id_sonde):
+def edit_sonde(id_Sonde):
    cpt=0
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
