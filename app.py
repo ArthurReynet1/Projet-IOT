@@ -108,7 +108,7 @@ def edit_sonde(id_sonde):
 
    return flask.render_template('form_sonde.html',sonde=table_sonde)
 
-@app.route('/delete/<id.Sonde>')
+@app.route('/delete/<id_Sonde>')
 def delete_sonde(id_Sonde):
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
