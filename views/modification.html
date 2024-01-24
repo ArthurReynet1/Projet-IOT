@@ -25,7 +25,7 @@
                         <tr>
                             <td class="text-center">{{ sonde.id_Sonde }}</td>
                             <td class="text-center">{{ sonde.name_sonde }}</td>
-                            <td class="text-center"><a href="/edit_{{sonde.id_Sonde}}"> <input type="checkbox" name="etat_{{ sonde.id_Sonde }}" value="1" {% if sonde.actif_sonde == 1 %} checked {% endif %}></a></td>
+                            <td class="text-center"><a href="/edit/{{sonde.id_Sonde}}" class="flex"> <input type="checkbox" name="etat_{{ sonde.id_Sonde }}" value="1" {% if sonde.actif_sonde == 1 %} checked {% endif %}></a></td>
                             <td class="text-center">
                                 <a href="/delete/{{sonde.id_Sonde}}" class="flex justify-center">
                                     <button class="bg-red-500 text-white py-1 px-2 rounded w-full">Delete</button>
