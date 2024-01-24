@@ -15,30 +15,36 @@ function createChart(data) {
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'line',
+        type: 'scatter', // Utilisez un diagramme de dispersion pour afficher la relation entre la température et l'humidité
         data: {
             labels: labels,
             datasets: [
                 {
-                    label: 'Température (°C)',
-                    data: temperature,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 2,
-                    fill: false
-                },
-                {
-                    label: 'Humidité (%)',
-                    data: humidity,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2,
-                    fill: false
+                    label: 'Température par rapport à l\'humidité',
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    pointRadius: 5,
                 }
             ]
         },
         options: {
             scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Humidité (%)'
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Température (°C)'
+                    }
                 }
             }
         }
