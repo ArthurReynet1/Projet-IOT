@@ -23,9 +23,9 @@
             <tbody>
                 {% for releve in releve %}
                     <tr>
-                        <td class="text-center">{{ releve[0] }}</td>
-                        <td class="text-center">{{ releve[1] }}</td>
-                        <td class="text-center">{{ releve[2] }}</td>
+                        <td class="text-center">{{ releve.moy_temp }}</td>
+                        <td class="text-center">{{ releve.moy_humidite }}</td>
+                        <td class="text-center">{{ releve.moy_pression }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
