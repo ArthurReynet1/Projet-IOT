@@ -22,8 +22,8 @@
                     <tbody>
                         {% for sonde in table_sonde %}
                             <tr>
-                                <td class="text-center">{{ sonde[0] }}</td>
-                                <td class="text-center">{{ sonde[1] }}</td>
+                                <td class="text-center">{{ sonde.id }}</td>
+                                <td class="text-center">{{ sonde.name }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
