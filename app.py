@@ -87,6 +87,16 @@ def list_sonde():
 
 @app.route('/edit/<id_Sonde>', methods=['POST'])
 def edit_sonde(id_Sonde):
+    connection=sqlite3.connect('Station_meteo.db')
+    cursor=connection.cursor()
+    cursor.execute('SELECT actif_sonde FROM Sonde WHERE id_Sonde = ?', (id_Sonde,))
+    data=cursor.fetchall()
+    if data[0][0] == 0:
+        cursor.execute('UPDATE Sonde SET actif_sonde = 1 WHERE id_Sonde = ?', (id_Sonde,))
+    else:
+        cursor.execute('UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?', (id_Sonde,))
+    connection.commit()
+    connection.close()
     
     return flask.redirect('/list')
 
