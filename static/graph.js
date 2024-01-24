@@ -13,15 +13,18 @@ function createChart(data) {
     var temperature = data.map(entry => entry[2]);
     var humidity = data.map(entry => entry[3]);
 
+    // Map the data array to an array of objects with x and y properties
+    var chartData = data.map(entry => ({ x: entry[3], y: entry[2] }));
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'line', // Utilisez un diagramme de dispersion pour afficher la relation entre la température et l'humidité
+        type: 'scatter', // Use a scatter plot to display the relationship between temperature and humidity
         data: {
             labels: labels,
             datasets: [
                 {
                     label: 'Température par rapport à l\'humidité',
-                    data: data,
+                    data: chartData,
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.5)',
                     pointRadius: 5,
