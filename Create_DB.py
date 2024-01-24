@@ -48,7 +48,7 @@ connection.commit()
 
 connection.commit()"""
 
-cursor.execute ("""DELETE FROM Sonde WHERE id_Sonde = 1""")
+cursor.execute ("""DELETE FROM Sonde WHERE id_Sonde = 2""")
 
 connection.commit()
 
