@@ -36,7 +36,9 @@ function createChart(data) {
                     title: {
                         display: true,
                         text: 'Humidité (%)'
-                    }
+                    },
+                    min: 0,
+                    max: 100
                 },
                 y: {
                     type: 'linear',
@@ -44,7 +46,9 @@ function createChart(data) {
                     title: {
                         display: true,
                         text: 'Température (°C)'
-                    }
+                    },
+                    min: -20,
+                    max: 50
                 }
             }
         }
