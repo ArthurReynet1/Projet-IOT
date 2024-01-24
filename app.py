@@ -81,16 +81,24 @@ def list_sonde():
        table_sonde.append({
        "id_Sonde":sonde[0],
        "name_sonde":sonde[1],
-       "actif_sonde":sonde[2]})
-   print(table_sonde) 
+       "actif_sonde":sonde[2]}) 
    return flask.render_template('modification.html',table_sonde=table_sonde)
 
 
 @app.route('/edit', methods=['POST'])
-def edit_sonde():
+def edit_sonde(id_sonde):
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute("""SELECT actif_sonde WHERE id_Sonde = """)
+   cursor.execute("""SELECT actif_sonde WHERE id_Sonde = ?;""",(id_sonde,))
+   etat=cursor.fetchone()
+   cursor.execute("""select count(*) from Sonde;""")
+   data2=cursor.fetchone()
+   etat= flask.request.values.get('id_Sonde')   
+   for i in range (data2) :
+    if etat == 1:
+        cursor.execute("""UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?;""",(id_sonde,))
+    else:
+        cursor.execute("""UPDATE Sonde SET actif_sonde = 1 WHERE id_Sonde = ?;""",(id_sonde,))
    data=cursor.fetchall()
    connection.commit()
    connection.close()
@@ -101,7 +109,7 @@ def edit_sonde():
        "name_sonde":sonde[1],
        "actif_sonde":sonde[2]})
    print(table_sonde) 
-   return flask.render_template('modification.html',sonde=table_sonde)
+   return flask.render_template('form_sonde.html',sonde=table_sonde)
 
 
 @app.route('/api/data', methods=['GET'])
