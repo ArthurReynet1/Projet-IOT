@@ -87,9 +87,7 @@ def list_sonde():
 
 @app.route('/edit', methods=['POST'])
 def edit_sonde(id_Sonde):
-
-
-   return flask.render_template
+    return flask.redirect('/list')
 
 @app.route('/delete/<id_Sonde>')
 def delete_sonde(id_Sonde):
@@ -100,7 +98,6 @@ def delete_sonde(id_Sonde):
    connection.close()
 
    return flask.redirect('/list')
-
 
 
 @app.route('/api/data', methods=['GET'])
