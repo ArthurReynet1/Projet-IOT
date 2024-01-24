@@ -4,9 +4,6 @@ import json
 import datetime
 
 app = flask.Flask(__name__, template_folder='views', static_url_path='', static_folder='static')
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5004, debug=True)
-
 
 #fonction pour lire le fichier json et le mettre dans une liste
 def read_file():
