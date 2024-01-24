@@ -87,29 +87,37 @@ def list_sonde():
 
 @app.route('/edit', methods=['POST'])
 def edit_sonde(id_sonde):
+   cpt=0
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
+
    cursor.execute("""SELECT actif_sonde WHERE id_Sonde = ?;""",(id_sonde,))
    etat=cursor.fetchone()
+
    cursor.execute("""select count(*) from Sonde;""")
    data2=cursor.fetchone()
-   etat= flask.request.values.get('id_Sonde')   
-   for i in range (data2) :
-    if etat == 1:
-        cursor.execute("""UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?;""",(id_sonde,))
-    else:
-        cursor.execute("""UPDATE Sonde SET actif_sonde = 1 WHERE id_Sonde = ?;""",(id_sonde,))
-   data=cursor.fetchall()
+  
+   while cpt < data2[0]:
+         id_Sonde=1
+         if etat == 1:
+              cursor.execute("""UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?;""",(id_sonde,))
+         else:
+              cursor.execute("""UPDATE Sonde SET actif_sonde = 1 WHERE id_Sonde = ?;""",(id_sonde,))
+         cpt+=1
+       
+
+   return flask.render_template('form_sonde.html',sonde=table_sonde)
+
+@app.route('/delete/<id.Sonde>')
+def delete_sonde(id_Sonde):
+   connection=sqlite3.connect('Station_meteo.db')
+   cursor=connection.cursor()
+   cursor.execute("""DELETE FROM Sonde WHERE id_Sonde = ?;""",(id_Sonde,))
    connection.commit()
    connection.close()
-   table_sonde=[]
-   for sonde in data:
-       table_sonde.append({
-       "id_sonde":sonde[0],
-       "name_sonde":sonde[1],
-       "actif_sonde":sonde[2]})
-   print(table_sonde) 
-   return flask.render_template('form_sonde.html',sonde=table_sonde)
+
+   return flask.redirect('/list')
+
 
 
 @app.route('/api/data', methods=['GET'])

@@ -27,7 +27,7 @@
                         <tr>
                             <td class="text-center">{{ sonde.id_Sonde }}</td>
                             <td class="text-center">{{ sonde.name_sonde }}</td>
-                            <td class="text-center"><input type="checkbox" name="etat_{{ sonde.id_Sonde }}" id="id_Sonde" value="1" {% if sonde.actif_sonde == "1" %} checked {% endif %}></td>
+                            <td class="text-center"><input type="checkbox" name="etat_{{ sonde.id_Sonde }}" value="1" {% if sonde.actif_sonde == "1" %} checked {% endif %}></td>
                             <td class="text-center">
                                 <a href="/delete/{{sonde.id_Sonde}}" class="flex justify-center">
                                     <button class="bg-red-500 text-white py-1 px-2 rounded w-full">Delete</button>
@@ -43,13 +43,13 @@
             </table>
         </div>
         {% endfor %}
-        <a href="/edit/{{sonde.id_Sonde}}" class="flex justify-center">
+        <a href="/edit" class="flex justify-center">
             <button type="submit" value="1" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
                 Mettre à jour l'État
             </button> 
         </a>
     </form>
-    <a href="/add/{{sonde.id_Sonde}}" class="flex justify-center mt-8">
+    <a href="/add" class="flex justify-center mt-8">
         <button type="submit" value="2" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
             Ajouter une sonde
         </button>
