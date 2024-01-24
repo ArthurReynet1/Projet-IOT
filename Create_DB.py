@@ -12,7 +12,8 @@ print("Ouverture de la base de données")
 cursor.execute ("""
                 CREATE TABLE IF NOT EXISTS Sonde(
                 id_Sonde INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                name_sonde TEXT NOT NULL)
+                name_sonde TEXT NOT NULL,
+                actif BOOLEEN NOT NULL)
                 ;
 """)
 
@@ -40,6 +41,10 @@ cursor.execute ("""CREATE TABLE IF NOT EXISTS User(
                 mdp_user TEXT NOT NULL)
                 ;               
 """)
+
+connection.commit()
+
+cursor.execute ("""ALTER TABLE Sonde ADD COLUMN actif BOOLEEN""")
 
 connection.commit()
 
