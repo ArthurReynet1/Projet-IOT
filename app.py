@@ -91,7 +91,7 @@ def edit_sonde(id_Sonde):
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
 
-   cursor.execute("""SELECT actif_sonde WHERE id_Sonde = ?;""",(id_sonde,))
+   cursor.execute("""SELECT actif_sonde WHERE id_Sonde = ?;""",(id_Sonde,))
    etat=cursor.fetchone()
 
    cursor.execute("""select count(*) from Sonde;""")
@@ -100,9 +100,9 @@ def edit_sonde(id_Sonde):
    while cpt < data2[0]:
          id_Sonde=1
          if etat == 1:
-              cursor.execute("""UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?;""",(id_sonde,))
+              cursor.execute("""UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?;""",(id_Sonde,))
          else:
-              cursor.execute("""UPDATE Sonde SET actif_sonde = 1 WHERE id_Sonde = ?;""",(id_sonde,))
+              cursor.execute("""UPDATE Sonde SET actif_sonde = 1 WHERE id_Sonde = ?;""",(id_Sonde,))
          cpt+=1
        
 
