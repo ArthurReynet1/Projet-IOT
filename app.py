@@ -82,7 +82,7 @@ def list_sonde():
        "sonde_id":sonde[0],
        "sonde_name":sonde[1]})
    print(table_sonde) 
-   return flask.render_template('modification.html',table_sonde=table_sonde)
+   return flask.render_template('modification.html',table_sondesonde=table_sonde)
 
 
 
