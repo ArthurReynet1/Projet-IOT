@@ -68,7 +68,7 @@ def home():
    #print(table_releve)
    return flask.render_template('index.html',releve=table_releve,emoji=pictogramme())
 
-@app.route('/list', methods=['GET'])
+@app.route('/list', methods=['GET','POST'])
 def list_sonde():
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
@@ -108,11 +108,11 @@ def edit_sonde(id_sonde):
 
    return flask.render_template('form_sonde.html',sonde=table_sonde)
 
-@app.route('/delete/<id.Sonde>')
+@app.route('/delete/<int:id_Sonde>')
 def delete_sonde(id_Sonde):
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute("""DELETE FROM Sonde WHERE id_Sonde = ?;""",(id_Sonde,))
+   cursor.execute('DELETE FROM Sonde WHERE id_Sonde = ?', (id_Sonde,))
    connection.commit()
    connection.close()
 
