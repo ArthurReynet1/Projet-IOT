@@ -97,6 +97,7 @@ def edit_sonde(id_Sonde):
         cursor.execute('UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?', (id_Sonde,))
     connection.commit()
     connection.close()
+    print(data)
 
     return flask.redirect('/list')
 
