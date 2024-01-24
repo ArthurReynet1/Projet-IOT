@@ -9,9 +9,9 @@ fetch('/api/data')
 
 function createChart(data) {
 
-    var labels = data.map(entry => entry.id);
-    var temperature = data.map(entry => entry.temperature);
-    var humidity = data.map(entry => entry.humidity);
+    var labels = data.map(entry => entry[1]);
+    var temperature = data.map(entry => entry[2]);
+    var humidity = data.map(entry => entry[3]);
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
