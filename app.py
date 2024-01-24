@@ -31,7 +31,6 @@ def write():
 
 
 @app.route('/', methods=['GET'])
-
 def home():
    write()
    connection=sqlite3.connect('Station_meteo.db')
@@ -58,5 +57,6 @@ def get_data():
     connection.close()
     return flask.jsonify({"data": data})
 
-
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
 #pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
