@@ -42,7 +42,7 @@
                 </tbody>
             </table>
         </div>
-        
+        {% endfor %}
         <a href="/edit/{{sonde.id_Sonde}}" class="flex justify-center">
             <button type="submit" value="1" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
                 Mettre à jour l'État
@@ -53,7 +53,7 @@
         <button type="submit" value="2" class="bg-teal-500 hover:bg-teal-600 text-white font-bold px-4 py-2 rounded-lg">
             Ajouter une sonde
         </button>
-        {% endfor %}
+       
     </a>
 </body>
     
