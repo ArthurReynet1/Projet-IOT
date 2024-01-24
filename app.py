@@ -85,8 +85,9 @@ def list_sonde():
    return flask.render_template('modification.html',table_sonde=table_sonde)
 
 
-@app.route('/edit', methods=['POST'])
+@app.route('/edit/<id_Sonde>', methods=['POST'])
 def edit_sonde(id_Sonde):
+    
     return flask.redirect('/list')
 
 @app.route('/delete/<id_Sonde>')
