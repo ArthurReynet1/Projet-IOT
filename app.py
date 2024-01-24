@@ -15,8 +15,8 @@ def write():
     data=json.loads(read_file())
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
-    date_releve=datetime.datetime.now()
     for i in range(len(data["data"])):
+        date_releve=datetime.datetime.now().strftime("%H:%M:%S")
         moy_temp=data["data"][i]["temperature"]
         moy_humidite=data["data"][i]["humidity"]
         moy_pression=data["data"][i]["pressure"]
