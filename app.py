@@ -7,7 +7,7 @@ app = flask.Flask(__name__, template_folder='views', static_url_path='', static_
 
 #fonction pour lire le fichier json et le mettre dans une liste
 def read_file():
-    with open('JSON/data.json', 'r') as fichier:
+    with open('data.json', 'r') as fichier:
         data = fichier.read()
     return data
 #fonction pour ecrire dans la base de donnée les données du fichier json
@@ -15,13 +15,11 @@ def write():
     data=json.loads(read_file())
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
-    for i in range(len(data["data"])):
-        date_releve=datetime.datetime.now().strftime("%H:%M:%S")
-        moy_temp=data["data"][i]["temperature"]
-        moy_humidite=data["data"][i]["humidity"]
-        moy_pression=data["data"][i]["pressure"]
-        id_Sonde=data["data"][i]["sensor_id"]
-        cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde))
+    date_releve=datetime.datetime.now().strftime("%H:%M:%S")
+    moy_temp=data["data"][0]["temperature"]
+    moy_humidite=data["data"][1]["humidity"]
+    moy_pression=data["data"][2]["pressure"]
+    cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,99))
     connection.commit()
     connection.close()
 
@@ -140,9 +138,15 @@ def get_data():
 def write_json():
     data = request.get_json()
     print("Received JSON data:", data)
-
+    modified_str =''
+    for char in str(data):
+        if char == "'":
+            modified_str += '"'
+        else:
+            modified_str += char
+    #print("modified JSON data:", modified_str)
     with open('data.json', 'w') as json_file:
-        json_file.write(str(data))
+        json_file.write(str(modified_str))
 
     return "JSON data received successfully"
 
