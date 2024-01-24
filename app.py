@@ -65,6 +65,7 @@ def home():
        "moy_temp":releve[0],
        "moy_humidite":releve[1],
        "moy_pression":releve[2]})
+   print(table_releve)
    return flask.render_template('index.html',releve=table_releve,emoji=pictogramme())
 
 @app.route('/api/data', methods=['GET'])
