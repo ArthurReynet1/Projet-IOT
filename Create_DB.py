@@ -58,6 +58,6 @@ connection.close()
 #insert a row in the table "Sonde"
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
-cursor.execute("""INSERT INTO Sonde(name_sonde,actif_sonde) VALUES('Sonde test',1)""")
+cursor.execute("""INSERT INTO Sonde(id_Sonde,name_sonde,actif_sonde) VALUES(1,'Vrai Sonde',1)""")
 connection.commit()
 connection.close()

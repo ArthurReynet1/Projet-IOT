@@ -16,10 +16,10 @@ def write():
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
     date_releve=datetime.datetime.now().strftime("%H:%M:%S")
-    moy_temp=data["data"][0]["temperature"]
-    moy_humidite=data["data"][1]["humidity"]
-    moy_pression=data["data"][2]["pressure"]
-    cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,99))
+    moy_temp=round(data["data"][0]["temperature"],2)
+    moy_humidite=round(data["data"][1]["humidity"],2)
+    moy_pression=round(data["data"][2]["pressure"],2)
+    cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,1))
     connection.commit()
     connection.close()
 
