@@ -7,23 +7,26 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-slate-200">
-        <h1 class="flex justify-center text-2xl font-medium text-cyan-400 mt-4">Se connecter</h1>
+        <h1 class="flex justify-center text-2xl font-medium text-cyan-400 mt-4">Créer un compte</h1>
         <div class="flex justify-normal ml-8">
-            <a class="flex justify-normal bg-cyan-500 text-white py-2 px-4 rounded ml-8" href="/">Retour</a>
+            <a class="flex justify-normal bg-cyan-500 text-white py-2 px-4 rounded ml-8" href="/login">Retour</a>
         </div>
         <div class="container mx-auto my-8 mt-8">
-            <form class="flex flex-col gap-4 mt-4 w-full md:w-1/2 mx-auto" method="POST" action="/login">
+            <form class="flex flex-col gap-4 mt-4 w-full md:w-1/2 mx-auto" method="POST" action="/inscription">
                 <div class="flex flex-col gap-1">
                     <label class="text-2xl text-cyan-900 font-bold" for="mail">Email :</label>
                     <input type="text" name="mail" id="mail" required><br>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-2xl text-cyan-900 font-bold" for="nom">Nom :</label>
+                    <input type="text" name="nom" id="nom" required><br>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="text-2xl text-cyan-900 font-bold" for="mdp">Mot de passe :</label>
                     <input type="password" name="mdp" id="mdp" required><br>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <button class="bg-cyan-500 text-white py-2 px-4 rounded" type="submit">Connexion</button>
-                    <a class="flex justify-center bg-cyan-500 text-white py-2 px-4 rounded" href="/inscription">Créer un compte</a>
+                    <button class="bg-cyan-500 text-white py-2 px-4 rounded" type="submit">Créer</button>
 
                 </div>
             </form>

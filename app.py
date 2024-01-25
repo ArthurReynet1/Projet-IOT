@@ -50,11 +50,16 @@ def pictogramme():
 
 @app.route('/', methods=['GET'])
 def home():
+   actif=0
    write()
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
    cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by date_releve desc limit 1;""")
    data=cursor.fetchall()
+   cursor.execute("""select count(*) from Utilisateur where actif_utilisateur=1;""")
+   data2=cursor.fetchall()
+   if data2[0][0] == 1:
+       actif=1
    connection.commit()
    connection.close()
    table_releve=[]
@@ -64,7 +69,7 @@ def home():
        "moy_humidite":releve[1],
        "moy_pression":releve[2]})
    #print(table_releve)
-   return flask.render_template('index.html',releve=table_releve,emoji=pictogramme())
+   return flask.render_template('index.html',releve=table_releve,emoji=pictogramme(),actif=actif)
 
 @app.route('/list', methods=['GET','POST'])
 def list_sonde():
@@ -150,7 +155,7 @@ def write_json():
 
     return "JSON data received successfully"
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if flask.request.method == 'POST':
         mail=flask.request.values.get("mail")
@@ -163,13 +168,49 @@ def login():
         connection.close()
 
         for utilisateur in data:
-            print(utilisateur[0],utilisateur[1])
             if mail == utilisateur[0] and mdp == utilisateur[1]:
+                connection=sqlite3.connect('Station_meteo.db')
+                cursor=connection.cursor()
+                cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=1 where mail_utilisateur = ? and mdp_utilisateur=?;""",(mail,mdp,))
+                connection.commit()
+                connection.close()
+
                 return flask.redirect('/')
             else:
                 return flask.redirect('/login')
         return flask.render_template('login.html')
     return flask.render_template('login.html')
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    connection=sqlite3.connect('Station_meteo.db')
+    cursor=connection.cursor()
+    cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=0;""")
+    connection.commit()
+    connection.close()
+
+    return flask.redirect('/')
+
+
+@app.route('/inscription', methods=['GET', 'POST'])
+def inscription():
+    if flask.request.method == 'POST':
+        mail=flask.request.values.get("mail")
+        nom=flask.request.values.get("nom")
+        mdp=flask.request.values.get("mdp")
+        connection=sqlite3.connect('Station_meteo.db')
+        cursor=connection.cursor()
+        cursor.execute("""select mail_utilisateur from Utilisateur;""")
+        data=cursor.fetchall()
+        for utilisateur in data:
+            if mail == utilisateur[0]:
+                return flask.redirect('/inscription')
+        cursor.execute("""insert into Utilisateur(name_utilisateur,mail_utilisateur,mdp_utilisateur,date_inscription_utilisateur,actif_utilisateur) values (?,?,?,?,?);""",(nom,mail,mdp,datetime.datetime.now().strftime("%H:%M:%S"),0))
+        connection.commit()
+        connection.close()
+
+        return flask.redirect('/login')
+    return flask.render_template('register.html')
 
 
 
