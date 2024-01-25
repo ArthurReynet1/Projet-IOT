@@ -69,26 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Lien permanent vers le graphique sauvegardé
-                    var permanentLink = data.permanentLink;
-    
-                    // URL de votre site
-                    var siteURL = window.location.href;
-    
-                    // Lien combiné
-                    var combinedLink = siteURL + permanentLink;
-    
-                    // Copier le lien combiné dans le presse-papiers
-                    navigator.clipboard.writeText(combinedLink)
-                        .then(() => {
-                            // Afficher le message en tant que fenêtre pop-up
-                            window.alert('Lien copié !');
-    
-                            console.log('Lien combiné copié dans le presse-papiers:', combinedLink);
-                        })
-                        .catch(err => {
-                            console.error('Erreur lors de la copie dans le presse-papiers:', err);
-                        });
+                    // Rediriger vers la nouvelle page avec le graphique
+                    window.location.href = "/graph/graph.png";
                 } else {
                     console.error('Erreur lors de la sauvegarde du graphique.');
                 }
@@ -96,7 +78,4 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erreur lors de la communication avec le serveur:', error));
         });
     }
-    
-    
-        
 });

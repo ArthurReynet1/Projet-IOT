@@ -7,6 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="{{ url_for('static', filename='graph.js') }}"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.min.js"></script>
+
 </head>
 <body class="bg-slate-200">
     <h1 class="flex justify-center text-2xl font-medium text-cyan-400 mt-4">Station &nbsp;<span class="text-yellow-400">Météo</span></h1>
@@ -23,9 +26,9 @@
         <table class="min-w-full bg-white border border-teal-500">
             <thead>
                 <tr class="bg-cyan-500 text-white">
-                    <th class="text-center">Température (en °C)</th>
-                    <th class="text-center">Taux d'humidité (en %)</th>
-                    <th class="text-center">Pression (en pa)</th>
+                    <th class="text-center w-1/3">Température (en °C)</th>
+                    <th class="text-center w-1/3">Taux d'humidité (en %)</th>
+                    <th class="text-center w-1/3">Pression (en pa)</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +41,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        
     </div>
 
 
@@ -53,8 +57,9 @@
     </div>
 
     <div class="flex justify-center">
-        <button id="shareButton" class="flex justify-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded">Partager le graphique</button>
+        <a id="shareButton" href="#" onclick="shareChart()" class="flex justify-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded">Partager le graphique</a>
     </div>
+
 </body>
     
 </html>

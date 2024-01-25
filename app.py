@@ -3,7 +3,6 @@ import sqlite3
 import json
 import datetime
 import os
-import uuid
 from flask import request
 from flask import jsonify
 from flask import send_from_directory
@@ -62,9 +61,9 @@ def pictogramme():
         pression=releve[2]
     if temperature >= 25 and humidite <= 50:
         pictogramme = "☀️"
-    elif temperature < 10 and pression <= 101325 and humidite <= 70:
+    elif temperature < 0 and humidite <= 70:
         pictogramme = "❄️"
-    elif pression > 101325:
+    elif pression > 1025:
         pictogramme = "☁️"
     elif humidite > 80:
         pictogramme = "🌧️"
@@ -194,7 +193,6 @@ def write_json():
             modified_str += '"'
         else:
             modified_str += char
-    #print("modified JSON data:", modified_str)
     with open('data.json', 'w') as json_file:
         json_file.write(str(modified_str))
 
@@ -292,9 +290,9 @@ def save_graph():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/uploads/<filename>')
-def download_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@app.route('/graph/<filename>')
+def graph_page(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, mimetype='image/png')
 
 
 #Lance le serveur web que si le programme est exécuter en tant que programme principale.
