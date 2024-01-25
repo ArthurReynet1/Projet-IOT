@@ -104,8 +104,4 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erreur lors de la communication avec le serveur:', error));
         });
     }
-    
-    
-    
-        
 });
