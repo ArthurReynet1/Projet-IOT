@@ -57,7 +57,7 @@ def home():
    write()
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by date_releve desc limit 1;""")
+   cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by id_Releve desc limit 1;""")
    data=cursor.fetchall()
    connection.commit()
    connection.close()
