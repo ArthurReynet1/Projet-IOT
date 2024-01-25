@@ -20,7 +20,14 @@ def write():
     moy_temp=round(data["data"][0]["temperature"],2)
     moy_humidite=round(data["data"][1]["humidity"],2)
     moy_pression=round(data["data"][2]["pressure"],2)
-    cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,1))
+    cursor.execute("""INSERT INTO Releve(
+                   date_releve,
+                   moy_temp,
+                   moy_humidite,
+                   moy_pression,
+                   id_Sonde
+                   ) 
+                   VALUES (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,1))
     connection.commit()
     connection.close()
 
@@ -29,7 +36,7 @@ def write():
 def pictogramme():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
-    cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by date_releve desc limit 1;""")
+    cursor.execute("""SELECT moy_temp,moy_humidite,moy_pression FROM Releve ORDER BY date_releve DESC LIMIT 1;""")
     data=cursor.fetchall()
     connection.commit()
     connection.close()
@@ -57,14 +64,14 @@ def home():
    write()
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by id_Releve desc limit 1;""")
+   cursor.execute("""SELECT moy_temp,moy_humidite,moy_pression FROM Releve ORDER BY id_Releve DESC LIMIT 1;""")
    data=cursor.fetchall()
    connection.commit()
    connection.close()
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
    
-   cursor.execute("""select count(*) from Utilisateur where actif_utilisateur=1;""")
+   cursor.execute("""SELECT COUNT(*) FROM Utilisateur WHERE actif_utilisateur=1;""")
    data2=cursor.fetchall()
    if data2[0][0] == 1:
        actif=1
@@ -85,7 +92,7 @@ def home():
 def list_sonde():
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute("""select * from Sonde;""")
+   cursor.execute("""SELECT * FROM Sonde;""")
    data=cursor.fetchall()
    connection.commit()
    connection.close()
@@ -135,7 +142,11 @@ def add_sonde():
         name_sonde=flask.request.values.get("nom")
         connection=sqlite3.connect('Station_meteo.db')
         cursor=connection.cursor()
-        cursor.execute('INSERT INTO Sonde(name_sonde, actif_sonde) VALUES (?, ?)', (name_sonde,0))
+        cursor.execute("""INSERT INTO Sonde(
+                       name_sonde,
+                       actif_sonde
+                       ) 
+                       VALUES (?, ?)""", (name_sonde,0))
         connection.commit()
         connection.close()
 
@@ -149,7 +160,7 @@ def add_sonde():
 def get_data():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
-    cursor.execute("""select * from Releve;""")
+    cursor.execute("""SELECT * FROM Releve;""")
     data=cursor.fetchall()
     connection.commit()
     connection.close()
@@ -182,7 +193,7 @@ def login():
         mdp=flask.request.values.get("mdp")
         connection=sqlite3.connect('Station_meteo.db')
         cursor=connection.cursor()
-        cursor.execute("""select mail_utilisateur,mdp_utilisateur from Utilisateur;""")
+        cursor.execute("""SELECT mail_utilisateur,mdp_utilisateur FROM Utilisateur;""")
         data=cursor.fetchall()
         connection.commit()
         connection.close()
@@ -193,7 +204,8 @@ def login():
             if mail == data[i][0] and mdp == data[i][1]:
                 connection=sqlite3.connect('Station_meteo.db')
                 cursor=connection.cursor()
-                cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=1 where mail_utilisateur = ? and mdp_utilisateur=?;""",(mail,mdp,))
+                cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=1 
+                                WHERE mail_utilisateur = ? AND mdp_utilisateur=?;""",(mail,mdp,))
                 connection.commit()
                 connection.close()
         return flask.redirect('/')
@@ -222,12 +234,19 @@ def inscription():
         mdp=flask.request.values.get("mdp")
         connection=sqlite3.connect('Station_meteo.db')
         cursor=connection.cursor()
-        cursor.execute("""select mail_utilisateur from Utilisateur;""")
+        cursor.execute("""SELECT mail_utilisateur FROM Utilisateur;""")
         data=cursor.fetchall()
         for utilisateur in data:
             if mail == utilisateur[0]:
                 return flask.redirect('/inscription')
-        cursor.execute("""insert into Utilisateur(name_utilisateur,mail_utilisateur,mdp_utilisateur,date_inscription_utilisateur,actif_utilisateur) values (?,?,?,?,?);""",(nom,mail,mdp,datetime.datetime.now().strftime("%H:%M:%S"),0))
+        cursor.execute("""INSERT INTO Utilisateur(
+                       name_utilisateur,
+                       mail_utilisateur,
+                       mdp_utilisateur,
+                       date_inscription_utilisateur,
+                       actif_utilisateur
+                       ) 
+                       VALUES (?,?,?,?,?);""",(nom,mail,mdp,datetime.datetime.now().strftime("%H:%M:%S"),0))
         connection.commit()
         connection.close()
 
@@ -238,22 +257,5 @@ def inscription():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-#pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
-"""
-pour le bonus du login sois on commence sur la route /login et on fait un formulaire pour se connecter et si 
-les données sont bonnes on est redirigé vers / et si les données sont mauvaises on reste sur /login
- + bouton pour s'inscrire qui nous redirige vers /inscription ou il y a un formulaire pour s'inscrire qui 
-enregistre les données dans la base de donnée et nous redirige vers /login pour se connecter
-ou alors on met un bouton pour se connecter sur la route / qui nous redirige vers /login et on fait pareil que la premiere solution
 
-CREATE TABLE IF NOT EXISTS Utilisateur(
-                id_Utilisateur INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                name_utilisateur TEXT NOT NULL,
-                mail_utilisateur TEXT NOT NULL,
-                mdp_utilisateur TEXT NOT NULL,
-                date_inscription_utilisateur DATETIME NOT NULL)
-                ;
-
-
-"""
     

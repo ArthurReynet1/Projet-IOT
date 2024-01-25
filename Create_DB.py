@@ -13,7 +13,7 @@ cursor.execute ("""
                 CREATE TABLE IF NOT EXISTS Sonde(
                 id_Sonde INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 name_sonde TEXT NOT NULL,
-                actif BOOLEEN NOT NULL)
+                actif_sonde INTEGER NOT NULL)
                 ;
 """)
 
