@@ -188,8 +188,8 @@ def login():
         connection.close()
 
         for utilisateur in data:
+            print(data,utilisateur[0],utilisateur[1])
             if mail == utilisateur[0] and mdp == utilisateur[1]:
-                print(data)
                 connection=sqlite3.connect('Station_meteo.db')
                 cursor=connection.cursor()
                 cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=1 where mail_utilisateur = ? and mdp_utilisateur=?;""",(mail,mdp,))
