@@ -2,11 +2,22 @@ import flask
 import sqlite3
 import json
 import datetime
+import os
+import uuid
 from flask import request
+from flask import jsonify
+from flask import send_from_directory
+
 
 
 #Création de l'application Flask et parametrage de celle-ci.
 app = flask.Flask(__name__, template_folder='views', static_url_path='', static_folder='static')
+
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 #Fonction pour lire le fichier json et le mettre dans une liste.
