@@ -1,10 +1,10 @@
 import sqlite3
 
-# Établir une connexion à la base de données
-# et créer un objet de connexion
+#Établir une connexion à la base de données
+#et créer un objet de connexion
 connection = sqlite3.connect('Station_meteo.db')
 
-# Créer un curseur vers la base de données
+#Créer un curseur vers la base de données
 cursor = connection.cursor()
 
 print("Ouverture de la base de données")
@@ -12,8 +12,7 @@ print("Ouverture de la base de données")
 cursor.execute ("""
                 CREATE TABLE IF NOT EXISTS Sonde(
                 id_Sonde INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                name_sonde TEXT NOT NULL,
-                actif_sonde INTEGER NOT NULL)
+                name_sonde TEXT NOT NULL)
                 ;
 """)
 
@@ -47,28 +46,32 @@ curosr.execute (""""""CREATE TABLE IF NOT EXISTS Utilisateur(
 """
 
 connection.commit()
-"""
-cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL"""""")
-"""
 
-connection.commit()
+#Modification de la table pour ajouter la colonne "actif_sonde" a la table "Sonde"
+"""cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL"""""")
 
+connection.commit()"""
+
+
+#Supression de la ligne qui a pour pour resultat "2" dans la colonne "id_Sonde" dans la table "Sonde"  
 """cursor.execute (""""""DELETE FROM Sonde WHERE id_Sonde = 2"""""")
 
 connection.commit()"""
 
 connection.close()
+
+#Insertion d'une ligne dans la table "Sonde"
 """
-#insert a row in the table "Sonde"
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
 cursor.execute(""""""INSERT INTO Sonde(id_Sonde,name_sonde,actif_sonde) VALUES(1,'Vrai Sonde',1)"""""")
 connection.commit()
 connection.close()
 """
-
+"""
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
-cursor.execute("""delete from Utilisateur where id_Utilisateur = 4""")
+cursor.execute(""""""delete from Utilisateur where id_Utilisateur = 4"""""")
 connection.commit()
 connection.close()
+"""

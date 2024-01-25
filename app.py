@@ -3,15 +3,20 @@ import sqlite3
 import json
 import datetime
 from flask import request
+
+
+#Création de l'application Flask et parametrage de celle-ci.
 app = flask.Flask(__name__, template_folder='views', static_url_path='', static_folder='static')
 
-#fonction pour lire le fichier json et le mettre dans une liste
+
+#Fonction pour lire le fichier json et le mettre dans une liste.
 def read_file():
     with open('data.json', 'r') as fichier:
         data = fichier.read()
     return data
 
-#fonction pour ecrire dans la base de donnée les données du fichier json
+
+#Fonction pour ecrire dans la base de donnée les données du fichier json.
 def write():
     data=json.loads(read_file())
     connection = sqlite3.connect('Station_meteo.db')
@@ -32,7 +37,7 @@ def write():
     connection.close()
 
 
-
+#Création de la fonction "pictogramme"
 def pictogramme():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
@@ -57,7 +62,7 @@ def pictogramme():
     return pictogramme
 
 
-
+#Création de la route "/"(home) qui permet de renvoyer les données de la table Releve, le pictogramme ainsi que l'etat de l'utilisateur si il est actif ou non.
 @app.route('/', methods=['GET'])
 def home():
    actif=0
@@ -87,7 +92,7 @@ def home():
    return flask.render_template('index.html',releve=table_releve,emoji=pictogramme(),actif=actif)
 
 
-
+#Création de la route "/list" pour lister les sondes.
 @app.route('/list', methods=['GET','POST'])
 def list_sonde():
    connection=sqlite3.connect('Station_meteo.db')
@@ -105,7 +110,7 @@ def list_sonde():
    return flask.render_template('modification.html',table_sonde=table_sonde)
 
 
-
+#Création de la route "/edit" pour modifier l'etat d'une sonde.
 @app.route('/edit/<id_Sonde>')
 def edit_sonde(id_Sonde):
     connection=sqlite3.connect('Station_meteo.db')
@@ -123,7 +128,7 @@ def edit_sonde(id_Sonde):
     return flask.redirect('/list')
 
 
-
+#Création de la route "delete" pour supprimer une sonde.
 @app.route('/delete/<id_Sonde>')
 def delete_sonde(id_Sonde):
    connection=sqlite3.connect('Station_meteo.db')
@@ -135,7 +140,7 @@ def delete_sonde(id_Sonde):
    return flask.redirect('/list')
 
 
-
+#Création de la route "/add" pour ajouter une sonde.
 @app.route('/add', methods=['GET','POST'])
 def add_sonde():
     if flask.request.method == 'POST':
@@ -155,7 +160,7 @@ def add_sonde():
         return flask.render_template('add.html')
     
 
-
+#Création de la route "/api/data" pour renvoyer toutes les entrées en json.
 @app.route('/api/data', methods=['GET'])
 def get_data():
     connection=sqlite3.connect('Station_meteo.db')
@@ -167,7 +172,7 @@ def get_data():
     return flask.jsonify({"data": data})
 
 
-
+#Création de la route "/writejson" qui permet de modifier le fichier json qu'on recoit de l'ESP.
 @app.route('/writejson', methods=['POST'])
 def write_json():
     data = request.get_json()
@@ -185,7 +190,7 @@ def write_json():
     return "JSON data received successfully"
 
 
-
+#Création de la route "/login" qui permet de se connecter au site.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if flask.request.method == 'POST':
@@ -210,7 +215,7 @@ def login():
     return flask.render_template('login.html')
 
 
-
+#Création de la table "/logout" qui permet de se déconnecter du site.
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     connection=sqlite3.connect('Station_meteo.db')
@@ -223,7 +228,7 @@ def logout():
 
 
 
-
+#Création de la table "inscription" qui permet de crée un compte.
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
     if flask.request.method == 'POST':
@@ -252,7 +257,7 @@ def inscription():
     return flask.render_template('register.html')
 
 
-
+#Lance le serveur web que si le programme est exécuter en tant que programme principale.
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
 
