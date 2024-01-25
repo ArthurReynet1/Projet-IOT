@@ -267,6 +267,35 @@ def inscription():
         return flask.redirect('/login')
     return flask.render_template('register.html')
 
+@app.route('/api/save-graph', methods=['POST'])
+def save_graph():
+    try:
+        if 'graphImage' not in request.files:
+            return jsonify({'success': False, 'error': 'Aucun fichier trouvé'})
+
+        file = request.files['graphImage']
+
+        # Assurez-vous que le dossier d'uploads existe
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+        # Générez un nom de fichier unique
+        filename = 'graph.png'
+
+        # Enregistrez le fichier dans le dossier d'uploads
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # Générez un lien permanent vers le fichier sauvegardé
+        permanent_link = f'/uploads/{filename}'
+
+        return jsonify({'success': True, 'permanentLink': permanent_link})
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/uploads/<filename>')
+def download_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 #Lance le serveur web que si le programme est exécuter en tant que programme principale.
 if __name__ == "__main__":
