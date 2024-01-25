@@ -62,9 +62,9 @@ def pictogramme():
         pression=releve[2]
     if temperature >= 25 and humidite <= 50:
         pictogramme = "☀️"
-    elif temperature < 10 and pression <= 101325 and humidite <= 70:
+    elif temperature < 0 and humidite <= 70:
         pictogramme = "❄️"
-    elif pression > 101325:
+    elif pression > 1025:
         pictogramme = "☁️"
     elif humidite > 80:
         pictogramme = "🌧️"
