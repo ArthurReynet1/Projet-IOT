@@ -194,7 +194,6 @@ def write_json():
             modified_str += '"'
         else:
             modified_str += char
-    #print("modified JSON data:", modified_str)
     with open('data.json', 'w') as json_file:
         json_file.write(str(modified_str))
 
