@@ -33,7 +33,7 @@ cursor.execute ("""CREATE TABLE IF NOT EXISTS Releve(
 
 connection.commit()
 
-#Création de la table "User"
+#Création de la table "Utilisateur"
 """
 curosr.execute (""""""CREATE TABLE IF NOT EXISTS Utilisateur(
                 id_Utilisateur INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

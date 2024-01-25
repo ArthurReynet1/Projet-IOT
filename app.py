@@ -10,6 +10,7 @@ def read_file():
     with open('data.json', 'r') as fichier:
         data = fichier.read()
     return data
+
 #fonction pour ecrire dans la base de donnée les données du fichier json
 def write():
     data=json.loads(read_file())
@@ -22,6 +23,8 @@ def write():
     cursor.execute("""insert into Releve(date_releve,moy_temp,moy_humidite,moy_pression,id_Sonde) values (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,1))
     connection.commit()
     connection.close()
+
+
 
 def pictogramme():
     connection=sqlite3.connect('Station_meteo.db')
@@ -71,6 +74,8 @@ def home():
    #print(table_releve)
    return flask.render_template('index.html',releve=table_releve,emoji=pictogramme(),actif=actif)
 
+
+
 @app.route('/list', methods=['GET','POST'])
 def list_sonde():
    connection=sqlite3.connect('Station_meteo.db')
@@ -86,6 +91,7 @@ def list_sonde():
        "name_sonde":sonde[1],
        "actif_sonde":sonde[2]}) 
    return flask.render_template('modification.html',table_sonde=table_sonde)
+
 
 
 @app.route('/edit/<id_Sonde>')
@@ -104,6 +110,8 @@ def edit_sonde(id_Sonde):
 
     return flask.redirect('/list')
 
+
+
 @app.route('/delete/<id_Sonde>')
 def delete_sonde(id_Sonde):
    connection=sqlite3.connect('Station_meteo.db')
@@ -113,6 +121,8 @@ def delete_sonde(id_Sonde):
    connection.close()
 
    return flask.redirect('/list')
+
+
 
 @app.route('/add', methods=['GET','POST'])
 def add_sonde():
@@ -127,6 +137,8 @@ def add_sonde():
         return flask.redirect('/list')
     else:
         return flask.render_template('add.html')
+    
+
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
@@ -137,6 +149,7 @@ def get_data():
     connection.commit()
     connection.close()
     return flask.jsonify({"data": data})
+
 
 
 @app.route('/writejson', methods=['POST'])
@@ -154,6 +167,8 @@ def write_json():
         json_file.write(str(modified_str))
 
     return "JSON data received successfully"
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -181,6 +196,9 @@ def login():
         return flask.render_template('login.html')
     return flask.render_template('login.html')
 
+
+
+
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     connection=sqlite3.connect('Station_meteo.db')
@@ -190,6 +208,8 @@ def logout():
     connection.close()
 
     return flask.redirect('/')
+
+
 
 
 @app.route('/inscription', methods=['GET', 'POST'])
