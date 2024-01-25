@@ -161,13 +161,15 @@ def login():
         data=cursor.fetchall()
         connection.commit()
         connection.close()
+
         for utilisateur in data:
+            print(utilisateur[0],utilisateur[1])
             if mail == utilisateur[0] and mdp == utilisateur[1]:
                 return flask.redirect('/')
             else:
                 return flask.redirect('/login')
-    else:
         return flask.render_template('login.html')
+    return flask.render_template('login.html')
 
 
 
