@@ -62,7 +62,6 @@ void setup()
   bool status;
 
   // default settings
-  // (you can also pass in a Wire library object like &Wire2)
   status = bme.begin(0x76);
 
   setupWifi();
@@ -71,7 +70,7 @@ void setup()
 
 void loop()
 {
-
+  if(count > 15) {
   display.clearDisplay();
   display.setCursor(0, 0);
   display.setTextSize(1);
@@ -94,7 +93,6 @@ void loop()
   display.print(bme.readHumidity());
   avgHum = avgHum + bme.readHumidity();
   display.println(" %");
-
   //affichage de l'heure
    timeClient.update();
 
@@ -107,6 +105,13 @@ void loop()
   //fin de l'affichage de l'heure
   display.display();
   count++;
+  }if(count <= 15) {
+  avgTemp = avgTemp + bme.readTemperature();
+  avgPress = avgPress + (bme.readPressure() / 100.0F);
+  avgHum = avgHum + bme.readHumidity();
+  //fin de l'affichage de l'heure
+  count++;
+  }
   if (count == 50)
   {
     display.clearDisplay();
@@ -131,7 +136,6 @@ void loop()
     display.println(wifip);
     display.display();
     sendJson(avgTemp, avgHum, avgPress);
-    delay(1000);
     avgTemp = 0;
     avgHum = 0;
     avgPress = 0;
