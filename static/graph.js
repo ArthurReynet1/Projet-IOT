@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 shareButton.style.backgroundColor = ''; // Réinitialisez la couleur de fond
                                 shareButton.style.color = ''; // Réinitialisez la couleur du texte
                                 shareButton.innerText = 'Partager le graphique'; // Réinitialisez le texte du bouton
-                            }, 1000);
+                            }, 2000);
                         })
                         .catch(err => {
                             console.error('Erreur lors de la copie dans le presse-papiers:', err);
