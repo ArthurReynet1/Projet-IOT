@@ -196,13 +196,8 @@ def login():
                 cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=1 where mail_utilisateur = ? and mdp_utilisateur=?;""",(mail,mdp,))
                 connection.commit()
                 connection.close()
-
-                return flask.redirect('/')
-            else:
-                return flask.redirect('/login')
-        return flask.render_template('login.html')
+        return flask.redirect('/')
     return flask.render_template('login.html')
-
 
 
 
