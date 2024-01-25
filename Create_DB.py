@@ -35,15 +35,17 @@ connection.commit()
 
 #Création de la table "User"
 """
-cursor.execute (""""""CREATE TABLE IF NOT EXISTS User(
-                id_User INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                date_user DATETIME NOT NULL, 
-                mail_user TEXT NOT NULL,
-                mdp_user TEXT NOT NULL)
-                ;               
+curosr.execute (""""""CREATE TABLE IF NOT EXISTS Utilisateur(
+                id_Utilisateur INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                name_utilisateur TEXT NOT NULL,
+                mail_utilisateur TEXT NOT NULL,
+                mdp_utilisateur TEXT NOT NULL,
+                date_inscription_utilisateur DATETIME NOT NULL,
+                actif_utilisateur INTEGER NOT NULL)
+                ;
 """""")
 """
-#J'avais pas vu que elle était déjà créée ducoup je l'ai commenté et un peu améliorée
+
 connection.commit()
 """
 cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL"""""")
@@ -67,6 +69,6 @@ connection.close()
 
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
-cursor.execute("""drop table User""")
+cursor.execute("""delete from Utilisateur where id_Utilisateur = 2""")
 connection.commit()
 connection.close()
