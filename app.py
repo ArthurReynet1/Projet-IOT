@@ -3,7 +3,6 @@ import sqlite3
 import json
 import datetime
 import os
-import uuid
 from flask import request
 from flask import jsonify
 from flask import send_from_directory
@@ -291,9 +290,9 @@ def save_graph():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/uploads/<filename>')
-def download_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@app.route('/graph/<filename>')
+def graph_page(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, mimetype='image/png')
 
 
 #Lance le serveur web que si le programme est exécuter en tant que programme principale.

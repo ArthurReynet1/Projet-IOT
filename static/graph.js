@@ -57,12 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function shareChart() {
-        var shareButton = document.getElementById('shareButton');
         var canvas = document.getElementById('myChart');
-    
-        // Désactivez le bouton pendant le traitement
-        shareButton.disabled = true;
-    
         canvas.toBlob(function(blob) {
             var formData = new FormData();
             formData.append('graphImage', blob);
@@ -74,50 +69,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Lien permanent vers le graphique sauvegardé
-                    var permanentLink = data.permanentLink;
-    
-                    // URL de votre site
-                    var siteURL = window.location.href;
-    
-                    // Lien combiné
-                    var combinedLink = siteURL + permanentLink;
-    
-                    // Copier le lien combiné dans le presse-papiers
-                    navigator.clipboard.writeText(combinedLink)
-                        .then(() => {
-                            // Changement de style du bouton
-                            shareButton.style.backgroundColor = '#d3d3d3'; // Gris clair
-                            shareButton.style.color = '#333'; // Gris foncé
-                            shareButton.innerText = 'Lien copié';
-    
-                            console.log('Lien copié dans le presse-papiers:', combinedLink);
-    
-                            // Réactivez le bouton après 3 secondes (3000 millisecondes)
-                            setTimeout(function() {
-                                shareButton.disabled = false;
-                                shareButton.style.backgroundColor = ''; // Réinitialisez la couleur de fond
-                                shareButton.style.color = ''; // Réinitialisez la couleur du texte
-                                shareButton.innerText = 'Partager le graphique'; // Réinitialisez le texte du bouton
-                            }, 2000);
-                        })
-                        .catch(err => {
-                            console.error('Erreur lors de la copie dans le presse-papiers:', err);
-                            // Réactivez le bouton immédiatement en cas d'erreur
-                            shareButton.disabled = false;
-                        });
+                    // Rediriger vers la nouvelle page avec le graphique
+                    window.location.href = "/graph/graph.png";
                 } else {
                     console.error('Erreur lors de la sauvegarde du graphique.');
-                    // Réactivez le bouton immédiatement en cas d'erreur
-                    shareButton.disabled = false;
                 }
             })
-            .catch(error => {
-                console.error('Erreur lors de la communication avec le serveur:', error);
-                // Réactivez le bouton immédiatement en cas d'erreur
-                shareButton.disabled = false;
-            });
+            .catch(error => console.error('Erreur lors de la communication avec le serveur:', error));
         });
     }
-    
 });
