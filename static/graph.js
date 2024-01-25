@@ -78,6 +78,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Lien combiné
                     var combinedLink = siteURL + permanentLink;
     
+                    // Ouvrir une nouvelle fenêtre pop-up avec le lien
+                    var popupWindow = window.open(combinedLink, '_blank');
+    
+                    // Si la pop-up est bloquée, informer l'utilisateur
+                    if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === 'undefined') {
+                        window.alert('Veuillez autoriser les pop-ups pour copier le lien.');
+                    }
+    
                     // Copier le lien combiné dans le presse-papiers
                     navigator.clipboard.writeText(combinedLink)
                         .then(() => {
@@ -96,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erreur lors de la communication avec le serveur:', error));
         });
     }
+    
     
     
         
