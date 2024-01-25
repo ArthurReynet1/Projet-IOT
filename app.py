@@ -51,7 +51,7 @@ def write():
 def pictogramme():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
-    cursor.execute("""SELECT moy_temp,moy_humidite,moy_pression FROM Releve ORDER BY date_releve DESC LIMIT 1;""")
+    cursor.execute("""SELECT moy_temp,moy_humidite,moy_pression FROM Releve ORDER BY id_Releve DESC LIMIT 1;""")
     data=cursor.fetchall()
     connection.commit()
     connection.close()
@@ -133,7 +133,6 @@ def edit_sonde(id_Sonde):
         cursor.execute('UPDATE Sonde SET actif_sonde = 0 WHERE id_Sonde = ?', (id_Sonde,))
     connection.commit()
     connection.close()
-    print(data)
 
     return flask.redirect('/list')
 
@@ -146,7 +145,6 @@ def delete_sonde(id_Sonde):
    cursor.execute('DELETE FROM Sonde WHERE id_Sonde = ?', (id_Sonde,))
    connection.commit()
    connection.close()
-
    return flask.redirect('/list')
 
 
