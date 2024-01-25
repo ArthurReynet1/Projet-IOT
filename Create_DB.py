@@ -34,14 +34,16 @@ cursor.execute ("""CREATE TABLE IF NOT EXISTS Releve(
 connection.commit()
 
 #Création de la table "User"
-cursor.execute ("""CREATE TABLE IF NOT EXISTS User(
+"""
+cursor.execute (""""""CREATE TABLE IF NOT EXISTS User(
                 id_User INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 date_user DATETIME NOT NULL, 
                 mail_user TEXT NOT NULL,
                 mdp_user TEXT NOT NULL)
                 ;               
-""")
-
+"""""")
+"""
+#J'avais pas vu que elle était déjà créée ducoup je l'ai commenté et un peu améliorée
 connection.commit()
 """
 cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL"""""")
@@ -54,10 +56,17 @@ connection.commit()
 connection.commit()"""
 
 connection.close()
-
+"""
 #insert a row in the table "Sonde"
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
-cursor.execute("""INSERT INTO Sonde(id_Sonde,name_sonde,actif_sonde) VALUES(1,'Vrai Sonde',1)""")
+cursor.execute(""""""INSERT INTO Sonde(id_Sonde,name_sonde,actif_sonde) VALUES(1,'Vrai Sonde',1)"""""")
+connection.commit()
+connection.close()
+"""
+
+connection = sqlite3.connect('Station_meteo.db')
+cursor = connection.cursor()
+cursor.execute("""drop table User""")
 connection.commit()
 connection.close()

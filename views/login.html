@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Station</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-slate-200">
+        <h1 class="flex justify-center text-2xl font-medium text-cyan-400 mt-4">Se connecter</h1>
+        <div class="container mx-auto my-8 mt-8">
+            <form class="flex flex-col gap-4 mt-4 w-full md:w-1/2 mx-auto" method="POST" action="/login">
+                <div class="flex flex-col gap-1">
+                    <label class="text-3xl text-cyan-900 font-bold" for="mail">Email :</label>
+                    <input type="text" name="mail" id="mail" required><br>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <button class="bg-cyan-500 text-white py-2 px-4 rounded" type="submit">Connexion</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

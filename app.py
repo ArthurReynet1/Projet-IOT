@@ -34,7 +34,7 @@ def pictogramme():
         temperature=releve[0]
         humidite=releve[1]
         pression=releve[2]
-    if temperature >= 25 and pression <= 101325 and humidite <= 50:
+    if temperature >= 25 and pression <= 10 and humidite <= 50:
         pictogramme = "☀️"
     elif temperature < 10 and pression <= 101325 and humidite <= 70:
         pictogramme = "❄️"
@@ -150,6 +150,45 @@ def write_json():
 
     return "JSON data received successfully"
 
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if flask.request.method == 'POST':
+        mail=flask.request.values.get("mail")
+        mdp=flask.request.values.get("mdp")
+        connection=sqlite3.connect('Station_meteo.db')
+        cursor=connection.cursor()
+        cursor.execute("""select mail_utilisateur,mdp_utilisateur from Utilisateur;""")
+        data=cursor.fetchall()
+        connection.commit()
+        connection.close()
+        for utilisateur in data:
+            if mail == utilisateur[0] and mdp == utilisateur[1]:
+                return flask.redirect('/')
+            else:
+                return flask.redirect('/login')
+    else:
+        return flask.render_template('login.html')
+
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
 #pour demain : faire des routes pour pouvoir supprimer et mettre a jour les données de la base de donnée via le site web
+"""
+pour le bonus du login sois on commence sur la route /login et on fait un formulaire pour se connecter et si 
+les données sont bonnes on est redirigé vers / et si les données sont mauvaises on reste sur /login
+ + bouton pour s'inscrire qui nous redirige vers /inscription ou il y a un formulaire pour s'inscrire qui 
+enregistre les données dans la base de donnée et nous redirige vers /login pour se connecter
+ou alors on met un bouton pour se connecter sur la route / qui nous redirige vers /login et on fait pareil que la premiere solution
+
+CREATE TABLE IF NOT EXISTS Utilisateur(
+                id_Utilisateur INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                name_utilisateur TEXT NOT NULL,
+                mail_utilisateur TEXT NOT NULL,
+                mdp_utilisateur TEXT NOT NULL,
+                date_inscription_utilisateur DATETIME NOT NULL)
+                ;
+
+
+"""
+    
