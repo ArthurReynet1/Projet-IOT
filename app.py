@@ -56,6 +56,11 @@ def home():
    cursor=connection.cursor()
    cursor.execute("""select moy_temp,moy_humidite,moy_pression from Releve order by date_releve desc limit 1;""")
    data=cursor.fetchall()
+   connection.commit()
+   connection.close()
+   connection=sqlite3.connect('Station_meteo.db')
+   cursor=connection.cursor()
+   
    cursor.execute("""select count(*) from Utilisateur where actif_utilisateur=1;""")
    data2=cursor.fetchall()
    if data2[0][0] == 1:
@@ -168,7 +173,7 @@ def login():
         connection.close()
 
         for utilisateur in data:
-            if mail == utilisateur[0] and mdp == utilisateur[1]:
+            if mail == utilisateur["mail_utilisateur"] and mdp == utilisateur["mdp_utilisateur"]:
                 connection=sqlite3.connect('Station_meteo.db')
                 cursor=connection.cursor()
                 cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=1 where mail_utilisateur = ? and mdp_utilisateur=?;""",(mail,mdp,))

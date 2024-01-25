@@ -69,6 +69,6 @@ connection.close()
 
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
-cursor.execute("""delete from Utilisateur where id_Utilisateur = 2""")
+cursor.execute("""delete from Utilisateur where id_Utilisateur = 4""")
 connection.commit()
 connection.close()
