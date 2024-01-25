@@ -275,16 +275,16 @@ def save_graph():
 
         file = request.files['graphImage']
 
-        # Assurez-vous que le dossier d'uploads existe
+        #Assurez-vous que le dossier d'uploads existe
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-        # Générez un nom de fichier unique
+        #Générez un nom de fichier unique
         filename = 'graph.png'
 
-        # Enregistrez le fichier dans le dossier d'uploads
+        #Enregistrez le fichier dans le dossier d'uploads
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        # Générez un lien permanent vers le fichier sauvegardé
+        #Générez un lien permanent vers le fichier sauvegardé
         permanent_link = f'/uploads/{filename}'
 
         return jsonify({'success': True, 'permanentLink': permanent_link})
