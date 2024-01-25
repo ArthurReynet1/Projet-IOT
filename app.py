@@ -36,17 +36,21 @@ def write():
     connection = sqlite3.connect('Station_meteo.db')
     cursor = connection.cursor()
     date_releve=datetime.datetime.now().strftime("%H:%M:%S")
+
     moy_temp=round(data["data"][0]["temperature"],2)
     moy_humidite=round(data["data"][1]["humidity"],2)
     moy_pression=round(data["data"][2]["pressure"],2)
-    cursor.execute("""INSERT INTO Releve(
-                   date_releve,
-                   moy_temp,
-                   moy_humidite,
-                   moy_pression,
-                   id_Sonde
-                   ) 
-                   VALUES (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,1))
+    cursor.execute("""select actif_Sonde from Sonde where id_Sonde=1;""")
+    data=cursor.fetchall()
+    if data[0][0] == 1:
+        cursor.execute("""INSERT INTO Releve(
+                    date_releve,
+                    moy_temp,
+                    moy_humidite,
+                    moy_pression,
+                    id_Sonde
+                    ) 
+                    VALUES (?,?,?,?,?);""",(date_releve,moy_temp,moy_humidite,moy_pression,1))
     connection.commit()
     connection.close()
 
@@ -75,11 +79,17 @@ def pictogramme():
         pictogramme = "☁️"
     return pictogramme
 
+def est_admin():
+    liste_admin=[8,9,10,11]
+    if session.get('id_Utilisateur') in liste_admin:
+        return True
+    else:
+        return False
+    
 
 #Création de la route "/"(home) qui permet de renvoyer les données de la table Releve, le pictogramme ainsi que l'etat de l'utilisateur si il est actif ou non.
 @app.route('/', methods=['GET'])
 def home():
-   #actif=0
    write()
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
@@ -87,19 +97,24 @@ def home():
    data=cursor.fetchall()
    connection.commit()
    connection.close()
-   actif = session.get('actif', False) #récupération de l'état de l'utilisateur
+   admin=est_admin()
+
+   actif = session.get('actif_utilisateur', False) #récupération de l'état de l'utilisateur
+
+
    table_releve=[]
    for releve in data:
        table_releve.append({
        "moy_temp":releve[0],
        "moy_humidite":releve[1],
        "moy_pression":releve[2]})
-   return render_template('index.html',releve=table_releve,emoji=pictogramme(),actif=actif)
+   return render_template('index.html',releve=table_releve,emoji=pictogramme(),actif=actif,admin=admin)
 
 
 #Création de la route "/list" pour lister les sondes.
 @app.route('/list', methods=['GET','POST'])
 def list_sonde():
+   admin=est_admin()
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
    cursor.execute("""SELECT * FROM Sonde;""")
@@ -112,7 +127,7 @@ def list_sonde():
        "id_Sonde":sonde[0],
        "name_sonde":sonde[1],
        "actif_sonde":sonde[2]}) 
-   return render_template('modification.html',table_sonde=table_sonde)
+   return render_template('modification.html',table_sonde=table_sonde,admin=admin)
 
 
 #Création de la route "/edit" pour modifier l'etat d'une sonde.
@@ -130,6 +145,8 @@ def edit_sonde(id_Sonde):
     connection.close()
 
     return redirect('/list')
+
+
 
 
 #Création de la route "delete" pour supprimer une sonde.
@@ -200,13 +217,14 @@ def login():
         mdp=request.values.get("mdp")
         connection=sqlite3.connect('Station_meteo.db')
         cursor=connection.cursor()
-        cursor.execute("""SELECT mail_utilisateur,mdp_utilisateur FROM Utilisateur;""")
+        cursor.execute("""SELECT id_Utilisateur,mail_utilisateur,mdp_utilisateur FROM Utilisateur;""")
         data=cursor.fetchall()
 
 
         for i in range (len(data)):
-            if mail == data[i][0] and mdp == data[i][1]:
-                session['actif'] = True #enregistrement de l'état de l'utilisateur dans la session
+            if mail == data[i][1] and mdp == data[i][2]:
+                session['actif_utilisateur'] = True #enregistrement de l'état de l'utilisateur dans la session
+                session['id_Utilisateur'] = data[i][0] #enregistrement de l'id de l'utilisateur dans la session
                 cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=1 WHERE mail_utilisateur=?;""",(mail,))
                 
         connection.commit()
@@ -221,8 +239,8 @@ def login():
 def logout():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
-    cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=0;""")
-    session['actif'] = False #suppression de l'état de l'utilisateur dans la session
+    cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=0 where id_Utilisateur=? ;""",(session.get('id_Utilisateur'),))
+    session.pop('actif_utilisateur', None)#suppression de l'état de l'utilisateur dans la session car si on fait session['actif_utilisateur'] = False, la session ne sera pas supprimée
     connection.commit()
     connection.close()
 
@@ -277,6 +295,23 @@ def save_graph():
 @app.route('/graph/<filename>')
 def graph_page(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, mimetype='image/png') #envoie le fichier graph.png dans le dossier uploads
+
+@app.route('/connexion', methods=['GET'])
+def list_utilisateur():
+   connection=sqlite3.connect('Station_meteo.db')
+   cursor=connection.cursor()
+   cursor.execute("""SELECT id_Utilisateur, name_utilisateur, mail_utilisateur, actif_utilisateur FROM Utilisateur;""")
+   data=cursor.fetchall()
+   connection.commit()
+   connection.close()
+   table_utilisateur=[]
+   for utilisateur in data:
+       table_utilisateur.append({
+       "id_Utilisateur":utilisateur[0],
+       "name_utilisateur":utilisateur[1],
+       "mail_utilisateur":utilisateur[2],
+       "actif_utilisateur":utilisateur[3]}) 
+   return render_template('connexion.html',table_utilisateur=table_utilisateur)
 
 
 #Lance le serveur web que si le programme est exécuter en tant que programme principale.

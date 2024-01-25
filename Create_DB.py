@@ -60,7 +60,7 @@ connection.commit()"""
 
 connection.close()
 
-#Insertion d'une ligne dans la table "Sonde"
+#creation de la vraie sonde dans laquel on va inserer les données envoyées par l'ESP
 """
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()

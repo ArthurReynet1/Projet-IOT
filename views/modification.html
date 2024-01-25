@@ -38,9 +38,17 @@
                                 </a>
                             </td>                                                 
                             <td class="text-center">
+                            {%if not admin%}    
+                                {% if sonde.id_Sonde != 1 %}
+                                    <a href="/delete/{{sonde.id_Sonde}}" class="flex justify-center">
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-medium px-2 rounded w-16">Delete</button>
+                                    </a>
+                                {% endif %}
+                            {%else%}
                                 <a href="/delete/{{sonde.id_Sonde}}" class="flex justify-center">
                                     <button class="bg-red-500 hover:bg-red-600 text-white font-medium px-2 rounded w-16">Delete</button>
                                 </a>
+                            {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

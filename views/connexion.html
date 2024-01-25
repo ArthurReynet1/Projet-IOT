@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-200">
+    <h1 class="flex justify-center text-2xl font-medium text-cyan-400 mt-4">ADMIN - Utilisateurs connectés</h1>
+    <div class="flex justify-normal ml-8">
+        <a class="flex justify-normal bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded ml-8" href="/">Retour</a>
+    </div>
+
+          
+        <div class="container mx-auto my-8">
+            <table class="min-w-full bg-white border border-teal-500">
+                <thead>
+                    <tr class="bg-cyan-500 text-white">
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Mail</th>
+                        <th>Etat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for utilisateur in table_utilisateur %}
+                        <tr>
+                            <td class="text-center">{{ utilisateur.id_Utilisateur }}</td>
+                            <td class="text-center">{{ utilisateur.name_utilisateur }}</td>
+                            <td class="text-center">{{ utilisateur.mail_utilisateur }}</td>
+                            <td class="text-center">{{ utilisateur.actif_utilisateur }}</td>                                                
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+</body>
+    
+</html>

@@ -17,6 +17,9 @@
         {% if actif%}
             <a class="flex justify-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded" href="/list">Gérer les sondes</a>
             <a class="flex justify-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded ml-8" href="/logout">Se déconnecter</a>
+            {% if admin %}
+                <a class="flex justify-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded ml-8" href="/connexion">Utilisateurs connectés</a>
+            {% endif %}
         {% else %}
             <a class="flex justify-center  bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded ml-8" href="/login">Se connecter</a>
         {% endif %}
