@@ -269,7 +269,7 @@ def inscription():
                        date_inscription_utilisateur,
                        actif_utilisateur
                        ) 
-                       VALUES (?,?,?,?,?);""",(nom,mail,mdp,datetime.datetime.now().strftime("%H:%M:%S"),0))
+                       VALUES (?,?,?,?,?);""",(nom,mail,mdp,datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),0))
         connection.commit()
         connection.close()
 
