@@ -188,7 +188,8 @@ def login():
         connection.close()
 
         for i in range (len(data)):
-            print(data,data[i][0],data[i][1])
+            print(data[i][0],data[i][1],len(data))
+            print(data)
             if mail == data[i][0] and mdp == data[i][1]:
                 connection=sqlite3.connect('Station_meteo.db')
                 cursor=connection.cursor()
