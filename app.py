@@ -117,7 +117,7 @@ def home():
 
 
 #Création de la route "/list" pour lister les sondes.
-@app.route('/list', methods=['GET','POST'])
+@app.route('/list', methods=['GET'])
 def list_sonde():
    admin=est_admin()
    connection=sqlite3.connect('Station_meteo.db')
@@ -136,7 +136,7 @@ def list_sonde():
 
 
 #Création de la route "/edit" pour modifier l'etat d'une sonde.
-@app.route('/edit/<id_Sonde>')
+@app.route('/edit/<id_Sonde>', methods=['GET'])
 def edit_sonde(id_Sonde):
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
@@ -155,7 +155,7 @@ def edit_sonde(id_Sonde):
 
 
 #Création de la route "delete" pour supprimer une sonde.
-@app.route('/delete/<id_Sonde>')
+@app.route('/delete/<id_Sonde>', methods=['GET'])
 def delete_sonde(id_Sonde):
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
@@ -236,11 +236,11 @@ def login():
         connection.close()
 
         return redirect('/')
-    return render_template('login.html')
+    return render_template('login.html') #si methode get on renvoie le model html pour generer la page
 
 
 #Création de la table "/logout" qui permet de se déconnecter du site.
-@app.route('/logout', methods=['GET', 'POST'])
+@app.route('/logout', methods=['GET'])
 def logout():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
@@ -297,7 +297,7 @@ def save_graph():
     except Exception as e: #Si une erreur se produit, on renvoie une erreur
         return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/graph/<filename>')
+@app.route('/graph/<filename>', methods=['GET'])
 def graph_page(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, mimetype='image/png') #envoie le fichier graph.png dans le dossier uploads
 
@@ -321,7 +321,7 @@ def list_utilisateur():
    return render_template('connexion.html',table_utilisateur=table_utilisateur,id_Utilisateur=id_Utilisateur)
 
 
-@app.route('/edit/admin/<id_Utilisateur>')
+@app.route('/edit/admin/<id_Utilisateur>', methods=['GET'])
 def edit_admin(id_Utilisateur):
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
