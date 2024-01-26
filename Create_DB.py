@@ -47,12 +47,6 @@ curosr.execute (""""""CREATE TABLE IF NOT EXISTS Utilisateur(
 
 connection.commit()
 
-#Modification de la table pour ajouter la colonne "actif_sonde" a la table "Sonde"
-"""cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL DEFAULT 0"""""")
-
-connection.commit()"""
-
-
 #Supression de la ligne qui a pour pour resultat "2" dans la colonne "id_Sonde" dans la table "Sonde"  
 """cursor.execute (""""""DELETE FROM Sonde WHERE id_Sonde = 2"""""")
 
