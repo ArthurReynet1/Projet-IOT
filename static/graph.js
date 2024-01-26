@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var labels = data.map(entry => entry[1]);
         var temperature = data.map(entry => entry[2]);
         var humidity = data.map(entry => entry[3]);
-
-        // Map the data array to an array of objects with x and y properties
+        
         var chartData = data.map(entry => ({ x: entry[3], y: entry[2] }));
 
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -57,11 +56,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function shareChart() {
+        // Récupérer l'image du graphique
         var canvas = document.getElementById('myChart');
         canvas.toBlob(function(blob) {
             var formData = new FormData();
             formData.append('graphImage', blob);
     
+            // Envoyer l'image au serveur
             fetch('/api/save-graph', {
                 method: 'POST',
                 body: formData
