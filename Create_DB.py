@@ -48,7 +48,7 @@ curosr.execute (""""""CREATE TABLE IF NOT EXISTS Utilisateur(
 connection.commit()
 
 #Modification de la table pour ajouter la colonne "actif_sonde" a la table "Sonde"
-"""cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL"""""")
+"""cursor.execute (""""""ALTER TABLE Sonde ADD COLUMN actif_sonde INTEGER NOT NULL DEFAULT 0"""""")
 
 connection.commit()"""
 
@@ -68,10 +68,17 @@ cursor.execute(""""""INSERT INTO Sonde(id_Sonde,name_sonde,actif_sonde) VALUES(1
 connection.commit()
 connection.close()
 """
+#modification de la table pour ajouter la colonne "admin_utilisateur" a la table "Utilisateur"
 """
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
-cursor.execute(""""""delete from Utilisateur where id_Utilisateur = 4"""""")
+cursor.execute(""""""ALTER TABLE Utilisateur ADD COLUMN admin_utilisateur INTEGER NOT NULL DEFAULT 0"""""")
 connection.commit()
 connection.close()
+
 """
+connection = sqlite3.connect('Station_meteo.db')
+cursor = connection.cursor()
+cursor.execute("""UPDATE Utilisateur SET admin_utilisateur = 1 WHERE id_Utilisateur = 11""")
+connection.commit()
+connection.close()

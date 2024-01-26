@@ -80,11 +80,16 @@ def pictogramme():
     return pictogramme
 
 def est_admin():
-    liste_admin=[8,9,10,11]
-    if session.get('id_Utilisateur') in liste_admin:
-        return True
-    else:
-        return False
+    connection=sqlite3.connect('Station_meteo.db')
+    cursor=connection.cursor()
+    cursor.execute("""SELECT id_Utilisateur FROM Utilisateur WHERE admin_utilisateur=1;""")
+    data=cursor.fetchall()
+    connection.commit()
+    connection.close()
+    for utilisateur in data:
+        if session.get('id_Utilisateur') == utilisateur[0]:
+            return True
+    return False
     
 
 #Création de la route "/"(home) qui permet de renvoyer les données de la table Releve, le pictogramme ainsi que l'etat de l'utilisateur si il est actif ou non.
@@ -239,7 +244,7 @@ def login():
 def logout():
     connection=sqlite3.connect('Station_meteo.db')
     cursor=connection.cursor()
-    cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=0 where id_Utilisateur=? ;""",(session.get('id_Utilisateur'),))
+    cursor.execute("""UPDATE Utilisateur SET actif_utilisateur=0 where id_Utilisateur=? ;""",(session.get('id_Utilisateur'),)) 
     session.pop('actif_utilisateur', None)#suppression de l'état de l'utilisateur dans la session car si on fait session['actif_utilisateur'] = False, la session ne sera pas supprimée
     connection.commit()
     connection.close()
@@ -300,18 +305,36 @@ def graph_page(filename):
 def list_utilisateur():
    connection=sqlite3.connect('Station_meteo.db')
    cursor=connection.cursor()
-   cursor.execute("""SELECT id_Utilisateur, name_utilisateur, mail_utilisateur, actif_utilisateur FROM Utilisateur;""")
+   cursor.execute("""SELECT id_Utilisateur, name_utilisateur, mail_utilisateur, actif_utilisateur, admin_utilisateur FROM Utilisateur;""")
    data=cursor.fetchall()
    connection.commit()
    connection.close()
+   id_Utilisateur=session.get('id_Utilisateur')
    table_utilisateur=[]
    for utilisateur in data:
        table_utilisateur.append({
        "id_Utilisateur":utilisateur[0],
        "name_utilisateur":utilisateur[1],
        "mail_utilisateur":utilisateur[2],
-       "actif_utilisateur":utilisateur[3]}) 
-   return render_template('connexion.html',table_utilisateur=table_utilisateur)
+       "actif_utilisateur":utilisateur[3],
+       "admin_utilisateur":utilisateur[4]}) 
+   return render_template('connexion.html',table_utilisateur=table_utilisateur,id_Utilisateur=id_Utilisateur)
+
+
+@app.route('/edit/admin/<id_Utilisateur>')
+def edit_admin(id_Utilisateur):
+    connection=sqlite3.connect('Station_meteo.db')
+    cursor=connection.cursor()
+    cursor.execute('SELECT admin_utilisateur FROM Utilisateur WHERE id_Utilisateur = ?', (id_Utilisateur,))
+    data=cursor.fetchall()
+    if data[0][0] == 0:
+        cursor.execute('UPDATE Utilisateur SET admin_utilisateur = 1 WHERE id_Utilisateur = ?', (id_Utilisateur,))
+    else:
+        cursor.execute('UPDATE Utilisateur SET admin_utilisateur = 0 WHERE id_Utilisateur = ?', (id_Utilisateur,))
+    connection.commit()
+    connection.close()
+
+    return redirect('/connexion')
 
 
 #Lance le serveur web que si le programme est exécuter en tant que programme principale.

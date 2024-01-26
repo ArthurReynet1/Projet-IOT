@@ -21,6 +21,7 @@
                         <th>Nom</th>
                         <th>Mail</th>
                         <th>Etat</th>
+                        <th>Admin</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +30,18 @@
                             <td class="text-center">{{ utilisateur.id_Utilisateur }}</td>
                             <td class="text-center">{{ utilisateur.name_utilisateur }}</td>
                             <td class="text-center">{{ utilisateur.mail_utilisateur }}</td>
-                            <td class="text-center">{{ utilisateur.actif_utilisateur }}</td>                                                
+                            <td class="text-center">{{ utilisateur.actif_utilisateur }}</td>
+                            {% if utilisateur.id_Utilisateur != id_Utilisateur %} <!--if pour ne pas pouvoir modifier son propre compte-->
+                                <td class="text-center p-0">
+                                    <a href="/edit/admin/{{utilisateur.id_Utilisateur}}" class="flex justify-center">
+                                        {% if utilisateur.admin_utilisateur == 1 %}
+                                            ✅
+                                        {% else %}
+                                            ❌
+                                        {% endif %}
+                                    </a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>
