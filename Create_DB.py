@@ -77,8 +77,11 @@ connection.commit()
 connection.close()
 
 """
+"""
 connection = sqlite3.connect('Station_meteo.db')
 cursor = connection.cursor()
-cursor.execute("""UPDATE Utilisateur SET admin_utilisateur = 1 WHERE id_Utilisateur = 11""")
+cursor.execute(""""""UPDATE Utilisateur SET admin_utilisateur = 1 WHERE id_Utilisateur = 11"""""")
 connection.commit()
 connection.close()
+
+"""
