@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/api/data')
         .then(response => response.json())
         .then(data => {
-            const selectedData = data.data.slice(-6);
+            const selectedData = data.data.slice(-20);
 
             createChart(selectedData);
         })
