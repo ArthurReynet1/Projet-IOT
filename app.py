@@ -287,7 +287,7 @@ def save_graph():
         if 'graphImage' not in request.files: #Vérifie si le fichier est présent dans la requête
             return jsonify({'success': False, 'error': 'Aucun fichier trouvé'}) #Si le fichier n'est pas trouvé, on renvoie une erreur
         file = request.files['graphImage'] #Récupère le fichier envoyé par l'utilisateur
-        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) #Assurez-vous que le dossier d'uploads existe
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) # on verif que le dossier d'uploads existe
         filename = 'graph.png' #Générez un nom de fichier unique
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #Enregistre le fichier dans le dossier d'uploads
         permanent_link = f'/uploads/{filename}' #Génère un lien permanent vers le fichier sauvegardé
